@@ -1,0 +1,9 @@
+{
+  "name": "wtf",
+  "dependencies": {
+    "angular": "^1.5.8"
+  },
+  "devDependencies": {
+    "moment": "^2.16.0"
+  }
+}
