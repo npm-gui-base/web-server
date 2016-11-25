@@ -5,7 +5,7 @@ const opn = require('opn');
 const NpmGuiCore = require('npm-gui-base-core');
 const NpmGuiCoreControllers = require('npm-gui-base-core-controllers');
 
-global.appRoot = path.resolve(__dirname);
+global.appRoot = path.resolve(__dirname + '/node_modules/web-client/dist/');
 const app = express();
 
 
@@ -23,9 +23,9 @@ app.use(bodyParser.urlencoded({
 // use routes
 app.use('/', NpmGuiCoreControllers.Routes.Static);
 app.use('/api/dependencies', NpmGuiCoreControllers.Routes.Dependencies);
-app.use('/api/dependenciesDev', NpmGuiCoreControllers.Routes.Dependencies);
-app.use('/api/dependenciesBin', NpmGuiCoreControllers.Routes.DependenciesBin);
-app.use('/api/globalPackages', NpmGuiCoreControllers.Routes.GlobalPackages);
+app.use('/api/dependencies-dev', NpmGuiCoreControllers.Routes.Dependencies);
+app.use('/api/dependencies-bin', NpmGuiCoreControllers.Routes.DependenciesBin);
+app.use('/api/global', NpmGuiCoreControllers.Routes.GlobalPackages);
 app.use('/api/tasks', NpmGuiCoreControllers.Routes.Tasks);
 app.use('/api/crawler', NpmGuiCoreControllers.Routes.Crawler);
 app.use('/api/project', NpmGuiCoreControllers.Routes.Project);
