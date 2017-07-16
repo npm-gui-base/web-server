@@ -1,7 +1,8 @@
 {
   "name": "wtf",
   "dependencies": {
-    "angular": "^1.5.8"
+    "angular": "^1.6.1",
+    "left_pad": "*"
   },
   "devDependencies": {
     "moment": "^2.16.0"

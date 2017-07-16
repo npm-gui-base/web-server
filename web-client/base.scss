@@ -1,0 +1,79 @@
+@import './open-iconic';
+@import './variables';
+
+body {
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#npm-gui-vue {
+  @include flexbox;
+  @include flex-direction(column);
+  @include flex;
+
+  height: 100%;
+}
+
+.row {
+  @include flexbox;
+  @include flex;
+}
+
+.left-column {
+  @include flexbox;
+  @include flex-basis(20%);
+
+  padding: $npm-gui-gutter / 2;
+}
+
+.right-column {
+  @include flexbox;
+  @include flex;
+
+  padding: $npm-gui-gutter / 2;
+}
+
+input,
+select {
+  background: $npm-gui-color-light;
+  border: 1px solid $npm-gui-color-gray;
+  border-radius: $npm-gui-radius;
+  display: block;
+  font-size: 11px;
+  height: 30px;
+  outline: none;
+  padding: 7.5px;
+}
+
+table {
+  border-collapse: collapse;
+  color: $npm-gui-color-dark-deep;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: .8em;
+  width: 100%;
+
+  tr:hover {
+    background: $npm-gui-color-gray-light;
+  }
+
+  td,
+  th {
+    border-bottom: 1px solid $npm-gui-color-gray;
+    padding: .5em;
+    text-align: left;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
