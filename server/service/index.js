@@ -1,10 +1,8 @@
-import Commands from './commands/commands.service';
-
+const Commands = require('./commands/commands.service');
 const Console = require('./console/console.service');
 const Dependencies = require('./dependencies');
 const Project = require('./project/project.service');
 const Utils = require('./utils/utils.service');
-const Search = require('./search/search.service');
 
 module.exports = {
   Commands,
@@ -12,5 +10,4 @@ module.exports = {
   Dependencies,
   Project,
   Utils,
-  Search,
 };

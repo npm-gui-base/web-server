@@ -2,36 +2,44 @@ const NpmGuiCore = require('../../core');
 
 const UtilsService = NpmGuiCore.Service.Utils;
 const CommandsService = NpmGuiCore.Service.Commands;
-// const ProjectService = NpmGuiCore.Service.Project;
+const ProjectService = NpmGuiCore.Service.Project;
 const DependenciesService = NpmGuiCore.Service.Dependencies;
 
 module.exports = {
   whenPut(req, res) {
-    DependenciesService
-      .install(
-        UtilsService.isDevDependencies(req),
-        req.params.repo,
-        req.body.key + (req.body.value ? `@${req.body.value}` : '')
-      )
+    const repo = req.params.repo;
+    const args = [
+      req.body.key + (req.body.value ? `@${req.body.value}` : ''),
+      UtilsService.isDevDependencies(req) ? '-D' : '-S',
+    ];
+
+    CommandsService
+      .run(CommandsService.cmd[repo].install, true, args)
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
-        res.status(200).send({});
-      }, (err) => {
-        console.log(err);
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(err);
+        res.status(200).send();
       });
   },
 
   whenDelete(req, res) {
-    DependenciesService
-      .uninstall(UtilsService.isDevDependencies(req), req.params.repo, req.params.name)
+    const repo = req.params.repo;
+    const args = [req.params.name, UtilsService.isDevDependencies(req) ? '-D' : '-S'];
+
+    // this should call method in modulesService
+    CommandsService
+      .run(CommandsService.cmd[repo].remove, true, args)
       .subscribe(() => {
+        // bugfix
+        // TODO tests
+        const packageJson = ProjectService.getPackageJson(repo);
+        if (UtilsService.isDevDependencies(req)) {
+          packageJson.removeDevDependence(req.params.name);
+        } else {
+          packageJson.removeDependence(req.params.name);
+        }
+
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 
@@ -41,9 +49,6 @@ module.exports = {
       .subscribe((dependencies) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(dependencies);
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 
@@ -53,21 +58,18 @@ module.exports = {
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 
   whenPostUpdateAll(req, res) {
+    const type = req.body.type;
+    const isDev = UtilsService.isDevDependencies(req);
+
     DependenciesService
-      .updateAllDependencies(UtilsService.isDevDependencies(req), req.body.type)
+      .updateAllDependencies(isDev, type)
       .subscribe((dependencies) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(dependencies);
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 
@@ -78,10 +80,10 @@ module.exports = {
       .subscribe(() => {
         // TODO
         /* const dependencies = {};
-         if (data.stderr) {
-         UtilsService.buildObjectFromArray(
-         UtilsService.parseJSON(data.stderr), dependencies, 'module');
-         }*/
+        if (data.stderr) {
+          UtilsService.buildObjectFromArray(
+            UtilsService.parseJSON(data.stderr), dependencies, 'module');
+        }*/
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({});
       });
@@ -93,9 +95,6 @@ module.exports = {
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({});
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 
@@ -105,9 +104,6 @@ module.exports = {
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({});
-      }, () => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(500).send(/* TODO ERROR*/);
       });
   },
 };

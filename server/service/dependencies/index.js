@@ -8,8 +8,6 @@ const dedupe = require('./dependencies.dedupe.service.js').dedupe;
 const prune = require('./dependencies.prune.service.js').prune;
 const shrinkwrap = require('./dependencies.shrinkwrap.service.js').shrinkwrap;
 const get = require('./dependencies.service.js').get;
-const install = require('./dependencies.install.service.js').install;
-const uninstall = require('./dependencies.uninstall.service.js').uninstall;
 
 // ///////////////////
 module.exports = function ModuleService() {
@@ -30,5 +28,3 @@ module.exports.dedupe = dedupe;
 module.exports.shrinkwrap = shrinkwrap;
 module.exports.prune = prune;
 module.exports.updateAllDependencies = updateAllDependencies;
-module.exports.install = install;
-module.exports.uninstall = uninstall;

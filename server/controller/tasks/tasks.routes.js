@@ -1,7 +1,7 @@
 const express = require('express');
 const tasksController = require('./tasks.controller');
 
-const tasksRouter = express.Router();// eslint-disable-line
+const tasksRouter = express.Router(); // eslint-disable-line
 
 tasksRouter.get('/', tasksController.whenGet);
 tasksRouter.put('/', tasksController.whenPut);

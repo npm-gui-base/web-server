@@ -67,38 +67,10 @@ module.exports = {
     });
   },
 
-  getAvailableRepos() {
-    // TODO more reactive way
-    return Rx.Observable.create((observer) => {
-      const sourceBower = this.isRepoAvailableTest('bower');
-      sourceBower
-        .subscribe(() => {
-          isRepoAvailable.bower = true;
-        }, () => {
-          isRepoAvailable.bower = false;
-        });
-
-      const sourceNPM = this.isRepoAvailableTest('npm');
-      sourceNPM
-        .subscribe(() => {
-          isRepoAvailable.npm = true;
-        }, () => {
-          isRepoAvailable.npm = false;
-        });
-
-      const source = sourceBower.merge(sourceNPM);
-
-      source.subscribeOnCompleted(() => {
-        observer.onNext();
-        observer.onCompleted();
-      });
-    });
-  },
-
   // or private? TODO test
   dependencies: {
     lastId: null,
-    all: [],
+    all: {},
   },
 
   devDependencies: {

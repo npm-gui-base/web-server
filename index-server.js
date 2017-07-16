@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 // use routes
-app.use('/', NpmGuiCoreControllers.Routes.Static(`${global.appRoot}/node_modules/web-client/dist`)); // eslint-disable-line
+app.use('/',NpmGuiCoreControllers.Routes.Static(`${global.appRoot}/dist/web-client`)); // eslint-disable-line
 app.use('/api/dependencies', NpmGuiCoreControllers.Routes.Dependencies);
 app.use('/api/dependencies-dev', NpmGuiCoreControllers.Routes.Dependencies);
 app.use('/api/dependencies-bin', NpmGuiCoreControllers.Routes.DependenciesBin);

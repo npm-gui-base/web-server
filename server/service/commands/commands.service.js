@@ -1,56 +1,56 @@
-import spawn from 'cross-spawn';
-import cmd from './commands.constants.js';
+const spawn = require('cross-spawn');
+const cmd = require('./commands.constants.js');
 //
-import ProjectService from '../project/project.service.js';
-import ConsoleService from '../console/console.service.js';
+const ProjectService = require('../project/project.service.js');
+const ConsoleService = require('../console/console.service.js');
 
-function run(command, bindConsole = false, additionalArgs = []) {
-  return new Promise((resolve) => {
-    // make a deep copy
-    const commandToSpawn = JSON.parse(JSON.stringify(command));
+module.exports = {
+  cmd,
+  run(command, bindConsole = false, additionalArgs = []) {
+    return new Promise((resolve) => {
+      // make a deep copy
+      const commandToSpawn = JSON.parse(JSON.stringify(command));
 
-    // add additional args
-    commandToSpawn.args = commandToSpawn.args.concat(additionalArgs);
+      // add additional args
+      commandToSpawn.args = commandToSpawn.args.concat(additionalArgs);
 
-    // send init message
-    if (bindConsole) {
-      ConsoleService.send(`start: ${commandToSpawn.command} ${commandToSpawn.args.toString()}\n`);
-    }
-
-    console.log(commandToSpawn.command, commandToSpawn.args);
-    // spawn process
-    const spawned = spawn(commandToSpawn.command, commandToSpawn.args, {
-      cwd: ProjectService.getPath(),
-    });
-
-    // wait for stdout, stderr
-    let stdout = '';
-    spawned.stdout.on('data', (data) => {
-      stdout += data.toString();
-      // send part data through socket if required
-      // TODO send as stdout
+      // send init message
       if (bindConsole) {
-        ConsoleService.send(data.toString());
+        ConsoleService.send(`start: ${commandToSpawn.command} ${commandToSpawn.args.toString()}\n`);
       }
-    });
 
-    let stderr = '';
-    spawned.stderr.on('data', (data) => {
-      stderr += data;
-      // TODO send as stderr and show red color
-      if (bindConsole) {
-        ConsoleService.send(data.toString());
-      }
-    });
+      // spawn process
+      const spawned = spawn(commandToSpawn.command, commandToSpawn.args, {
+        cwd: ProjectService.getPath(),
+      });
 
-    // wait for finish and resolve
-    spawned.on('close', () => {
-      resolve({
-        stdout,
-        stderr,
+      // wait for stdout, stderr
+      let stdout = '';
+      spawned.stdout.on('data', (data) => {
+        stdout += data.toString();
+        // send part data through socket if required
+        // TODO send as stdout
+        if (bindConsole) {
+          ConsoleService.send(data.toString());
+        }
+      });
+
+      let stderr = '';
+      spawned.stderr.on('data', (data) => {
+        stderr += data;
+        // TODO send as stderr and show red color
+        if (bindConsole) {
+          ConsoleService.send(data.toString());
+        }
+      });
+
+      // wait for finish and resolve
+      spawned.on('close', () => {
+        resolve({
+          stdout,
+          stderr,
+        });
       });
     });
-  });
-}
-
-export default { run, cmd };
+  },
+};

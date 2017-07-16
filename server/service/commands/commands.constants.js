@@ -12,10 +12,6 @@ module.exports = {
       command: 'bower',
       args: ['ls', '--depth=0', '--json'],
     },
-    info: {
-      command: 'bower',
-      args: ['info', '--json'],
-    },
     prune: {
       command: 'bower',
       args: ['prune'],

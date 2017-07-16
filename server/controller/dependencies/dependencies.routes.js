@@ -1,7 +1,7 @@
 const express = require('express');
 const dependenciesController = require('./dependencies.controller.js');
 
-const dependenciesRouter = express.Router();// eslint-disable-line
+const dependenciesRouter = express.Router(); // eslint-disable-line
 
 dependenciesRouter.get('/', dependenciesController.whenGet);
 dependenciesRouter.put('/:repo/', dependenciesController.whenPut);

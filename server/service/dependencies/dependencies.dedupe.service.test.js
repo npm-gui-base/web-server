@@ -1,14 +1,14 @@
 require('should');
 const proxyquire = require('proxyquire');
 const sinon = require('sinon');
-const Rx = require('rx');
 require('should-sinon');
 
-let isRepoAvailableObservable = new Rx.Subject();
-let commandRunObservable = new Rx.Subject();
+const RxMock = {
+  subscribe: sinon.stub().callsArg(0),
+};
 
 const CommandsServiceMock = {
-  run: sinon.stub().returns(commandRunObservable),
+  run: sinon.stub().returns(RxMock),
   cmd: {
     npm: {
       dedupe: 'dedupe command',
@@ -19,9 +19,8 @@ const CommandsServiceMock = {
   },
 };
 
-
 const ProjectServiceMock = {
-  isRepoAvailable: sinon.stub().returns(isRepoAvailableObservable),
+  isRepoAvailable: sinon.stub().returns(true),
 };
 
 const DependenciesDedupeService = proxyquire('./dependencies.dedupe.service', {
@@ -30,7 +29,7 @@ const DependenciesDedupeService = proxyquire('./dependencies.dedupe.service', {
 });
 
 describe('Dependencies Service - Dedupe module', () => {
-  it('should call npm command with bind to console', (done) => {
+  it('should call npm command with bind to console', () => {
     DependenciesDedupeService
       .dedupe()
       .subscribe(() => {
@@ -41,11 +40,6 @@ describe('Dependencies Service - Dedupe module', () => {
           .be.calledWith(CommandsServiceMock.cmd.npm.dedupe, true);
         CommandsServiceMock.run.should
           .not.be.calledWith(CommandsServiceMock.cmd.bower.dedupe, true);
-
-        done();
       });
-
-    isRepoAvailableObservable.onNext();
-    commandRunObservable.onNext();
   });
 });

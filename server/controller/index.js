@@ -14,6 +14,6 @@ module.exports = {
   DependenciesBin,
   Project,
   Static,
-  Tasks,
   Search,
+  Tasks,
 };

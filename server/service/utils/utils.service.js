@@ -52,8 +52,4 @@ module.exports = {
       destination[key] = source[key]; // eslint-disable-line
     }
   },
-
-  deepCopy(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  },
 };
