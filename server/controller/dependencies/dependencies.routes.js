@@ -1,5 +1,5 @@
-const express = require('express');
-const dependenciesController = require('./dependencies.controller.js');
+import express from 'express';
+import dependenciesController from './dependencies.controller.js';
 
 const dependenciesRouter = express.Router(); // eslint-disable-line
 
@@ -15,4 +15,4 @@ dependenciesRouter.get('/nsp', dependenciesController.whenGetNSP);
 dependenciesRouter.get('/prune', dependenciesController.whenGetPrune);
 dependenciesRouter.get('/dedupe', dependenciesController.whenGetDedupe);
 
-module.exports = dependenciesRouter;
+export default dependenciesRouter;

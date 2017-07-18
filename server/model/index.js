@@ -1,5 +1,5 @@
 const PackageJson = require('./package-json');
 
-module.exports = {
+export default {
   PackageJson,
 };

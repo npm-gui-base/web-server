@@ -1,10 +1,10 @@
-const Commands = require('./commands/commands.service');
-const Console = require('./console/console.service');
-const Dependencies = require('./dependencies');
-const Project = require('./project/project.service');
-const Utils = require('./utils/utils.service');
+import Commands from './commands/commands.service';
+import Console from './console/console.service';
+import Dependencies from './dependencies';
+import Project from './project/project.service';
+import Utils from './utils/utils.service';
 
-module.exports = {
+export default {
   Commands,
   Console,
   Dependencies,

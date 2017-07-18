@@ -17,6 +17,10 @@ module.exports = {
       }
     }
   },
+  global: {
+    describe: true,
+    it: true,
+  }
   // add your custom rules here
   // rules: {
   //   // allow debugger during development

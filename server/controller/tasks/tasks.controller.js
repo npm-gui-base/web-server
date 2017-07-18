@@ -1,39 +1,38 @@
-const NpmGuiCore = require('../../core');
+import NpmGuiCore from '../../core';
 
 const CommandsService = NpmGuiCore.Service.Commands;
 
 const PackageJson = NpmGuiCore.Model.PackageJson;
 
-module.exports = {
-  whenGet(req, res) {
-    const packageJson = new PackageJson();
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send(packageJson.getTasksArray());
-  },
+function whenGet(req, res) {
+  const packageJson = new PackageJson();
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send(packageJson.getTasksArray());
+}
 
-  whenPut(req, res) {
-    const packageJson = new PackageJson();
-    packageJson.addTask(req.body.key, req.body.value);
-    res.status(200).send();
-  },
+function whenPut(req, res) {
+  const packageJson = new PackageJson();
+  packageJson.addTask(req.body.key, req.body.value);
+  res.status(200).send();
+}
 
-  whenDelete(req, res) {
-    const packageJson = new PackageJson();
-    packageJson.removeTask(req.params.name);
-    res.status(200).send();
-  },
+function whenDelete(req, res) {
+  const packageJson = new PackageJson();
+  packageJson.removeTask(req.params.name);
+  res.status(200).send();
+}
 
-  whenPost(req, res) {
-    CommandsService
+function whenPost(req, res) {
+  CommandsService
       .run(CommandsService.cmd.npm.run, true, [req.params.name])
       .then(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
       });
-  },
+}
 
-  whenGetHelp(req, res) {
-    CommandsService
+function whenGetHelp(req, res) {
+  CommandsService
       .run(CommandsService.cmd.npm.bin)
       .then((data) =>
         CommandsService
@@ -49,5 +48,12 @@ module.exports = {
           flags: (data.stdout + data.stderr).match(/[-]{1,2}[a-zA-Z0-9]+/g),
         });
       });
-  },
+}
+
+export default {
+  whenGet,
+  whenPut,
+  whenPost,
+  whenGetHelp,
+  whenDelete,
 };

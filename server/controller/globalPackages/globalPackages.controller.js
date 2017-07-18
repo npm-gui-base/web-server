@@ -1,34 +1,34 @@
-const NpmGuiCore = require('../../core');
+import NpmGuiCore from '../../core';
 
-const UtilsService = NpmGuiCore.Service.Utils;
-const CommandsService = NpmGuiCore.Service.Commands;
+const Service = NpmGuiCore.Service;
+const UtilsService = Service.Utils;
+const CommandsService = Service.Commands;
 
 // this also need service or be in modules service
-module.exports = {
-  whenPut(req, res) {
-    const putCommand = JSON.parse(JSON.stringify(CommandsService.cmd.npm.install));
-    putCommand.args.push(req.body.key + (req.body.value ? `@${req.body.value}` : ''));
-    putCommand.args.push('-g');
+function whenPut(req, res) {
+  const putCommand = JSON.parse(JSON.stringify(CommandsService.cmd.npm.install));
+  putCommand.args.push(req.body.key + (req.body.value ? `@${req.body.value}` : ''));
+  putCommand.args.push('-g');
 
-    CommandsService
+  CommandsService
       .run(putCommand, true)
       .then(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
       });
-  },
+}
 
-  whenDelete(req, res) {
-    CommandsService
+function whenDelete(req, res) {
+  CommandsService
       .run(CommandsService.cmd.npm.uninstall, true, [req.params.name, '-g'])
       .then(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
       });
-  },
+}
 
-  whenGet(req, res) {
-    CommandsService
+function whenGet(req, res) {
+  CommandsService
       .run(CommandsService.cmd.npm.ls, false, ['-g'])
       .then((data) => {
         const dependencies = UtilsService.parseJSON(data.stdout).dependencies;
@@ -41,12 +41,12 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(preparedDependenciesArray);
       });
-  },
+}
 
-  whenGetVersions(req, res) {
-    let dependencies = null;
+function whenGetVersions(req, res) {
+  let dependencies = null;
 
-    CommandsService
+  CommandsService
       .run(CommandsService.cmd.npm.ls, false, ['-g'])
       .then((data) => {
         dependencies = UtilsService.parseJSON(data.stdout).dependencies;
@@ -63,11 +63,18 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(dependencies);
       });
-  },
+}
 
-  whenGetNSP(req, res) {
+function whenGetNSP(req, res) {
     // TODO?
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).send({});
-  },
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send({});
+}
+
+export default {
+  whenPut,
+  whenDelete,
+  whenGet,
+  whenGetNSP,
+  whenGetVersions,
 };

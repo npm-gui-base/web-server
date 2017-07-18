@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
+import globalModulesController from './globalPackages.controller.js';
 
 const globalModulesRouter = express.Router(); // eslint-disable-line
 
-const globalModulesController = require('./globalPackages.controller.js');
 
 globalModulesRouter.get('/', globalModulesController.whenGet);
 globalModulesRouter.put('/', globalModulesController.whenPut);
@@ -11,4 +11,4 @@ globalModulesRouter.delete('/:name', globalModulesController.whenDelete);
 globalModulesRouter.get('/versions', globalModulesController.whenGetVersions);
 globalModulesRouter.get('/nsp', globalModulesController.whenGetNSP);
 
-module.exports = globalModulesRouter;
+export default globalModulesRouter;

@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 // import opn from 'opn';
 import NpmGuiCore from './server/core';
-import NpmGuiCoreControllers from './server/controllers';
+import NpmGuiControllers from './server/controllers';
 
 global.appRoot = path.resolve(__dirname);
 const app = express();
@@ -21,15 +21,15 @@ app.use(bodyParser.urlencoded({
 }));
 
 // use routes
-app.use('/',NpmGuiCoreControllers.Routes.Static(`${global.appRoot}/dist/web-client`)); // eslint-disable-line
-app.use('/api/dependencies', NpmGuiCoreControllers.Routes.Dependencies);
-app.use('/api/dependencies-dev', NpmGuiCoreControllers.Routes.Dependencies);
-app.use('/api/dependencies-bin', NpmGuiCoreControllers.Routes.DependenciesBin);
-app.use('/api/global', NpmGuiCoreControllers.Routes.GlobalPackages);
-app.use('/api/tasks', NpmGuiCoreControllers.Routes.Tasks);
-app.use('/api/crawler', NpmGuiCoreControllers.Routes.Crawler);
-app.use('/api/project', NpmGuiCoreControllers.Routes.Project);
-app.use('/api/search', NpmGuiCoreControllers.Routes.Search);
+app.use('/', NpmGuiControllers.Routes.Static(`${global.appRoot}/dist/web-client`)); // eslint-disable-line
+app.use('/api/dependencies', NpmGuiControllers.Routes.Dependencies);
+app.use('/api/dependencies-dev', NpmGuiControllers.Routes.Dependencies);
+app.use('/api/dependencies-bin', NpmGuiControllers.Routes.DependenciesBin);
+app.use('/api/global', NpmGuiControllers.Routes.GlobalPackages);
+app.use('/api/tasks', NpmGuiControllers.Routes.Tasks);
+app.use('/api/crawler', NpmGuiControllers.Routes.Crawler);
+app.use('/api/project', NpmGuiControllers.Routes.Project);
+app.use('/api/search', NpmGuiControllers.Routes.Search);
 
 
 function start(host, port) {

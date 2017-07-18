@@ -1,6 +1,6 @@
-const Rx = require('rx');
-const fsAccess = require('fs-access');
-const PackageJson = require('../../model/package-json.js');
+import Rx from 'rx';
+import fsAccess from 'fs-access';
+import PackageJson from '../../model/package-json.js';
 
 let projectPath = process.cwd();
 
@@ -9,7 +9,7 @@ const isRepoAvailable = {
   bower: false,
 };
 
-module.exports = {
+export default {
   isRepoAvailable(repo) {
     return isRepoAvailable[repo];
   },

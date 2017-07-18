@@ -89,7 +89,7 @@ const methodsFor = {
   },
 };
 
-module.exports = {
+export default {
   getVersionsFor(repo, name) {
     return methodsFor[repo].getVersions(name);
   },

@@ -22,7 +22,7 @@ import DependenciesVersionService from './dependencies.version.service';
 //   });
 // }
 
-module.exports = {
+export default {
   install(isDev, repo, name) {
     return CommandsService
       .run(CommandsService.cmd[repo].install, true, [name, isDev ? '-D' : '-S'])

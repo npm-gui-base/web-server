@@ -4,7 +4,7 @@ const cmd = require('./commands.constants.js');
 const ProjectService = require('../project/project.service.js');
 const ConsoleService = require('../console/console.service.js');
 
-module.exports = {
+export default {
   cmd,
   run(command, bindConsole = false, additionalArgs = []) {
     return new Promise((resolve) => {

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   bower: {
     install: {
       command: 'bower',

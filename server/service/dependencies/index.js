@@ -10,7 +10,7 @@ const shrinkwrap = require('./dependencies.shrinkwrap.service.js').shrinkwrap;
 const get = require('./dependencies.service.js').get;
 
 // ///////////////////
-module.exports = function ModuleService() {
+export default function ModuleService() {
   this.modules = {
     lastId: null,
     all: {},
@@ -20,7 +20,7 @@ module.exports = function ModuleService() {
     lastId: null,
     all: {},
   };
-};
+}
 
 module.exports.get = get;
 module.exports.reinstallAllDependencies = reinstallAllDependencies;

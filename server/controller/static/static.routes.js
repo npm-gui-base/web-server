@@ -1,14 +1,17 @@
-const express = require('express');
+import express from 'express';
 
 const staticRouter = express.Router(); // eslint-disable-line
 
-module.exports = (staticPath) =>
+function staticByPath(staticPath) {
   staticRouter.use(express.static(
     `${staticPath}`,
     {
       index: ['index.html', 'index.htm'],
     }));
 
-staticRouter.use('/node_modules', express.static('node_modules'));
+  staticRouter.use('/node_modules', express.static('node_modules'));
 
-export default staticRouter;
+  return staticRouter;
+}
+
+export default staticByPath;

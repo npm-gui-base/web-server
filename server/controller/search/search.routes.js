@@ -1,8 +1,8 @@
-const express = require('express');
-const searchController = require('./search.controller.js');
+import express from 'express';
+import searchController from './search.controller.js';
 
 const searchRouter = express.Router();// eslint-disable-line
 
 searchRouter.post('/:repo', searchController.whenPost);
 
-module.exports = searchRouter;
+export default searchRouter;

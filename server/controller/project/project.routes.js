@@ -1,9 +1,9 @@
-const express = require('express');
-const projectController = require('./project.controller');
+import express from 'express';
+import projectController from './project.controller';
 
 const projectRouter = express.Router(); // eslint-disable-line
 
 projectRouter.get('/', projectController.whenGet);
 projectRouter.put('/path/:path', projectController.whenPut);
 
-module.exports = projectRouter;
+export default projectRouter;

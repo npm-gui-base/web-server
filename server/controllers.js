@@ -1,5 +1,5 @@
-const Routes = require('./controller');
+import Routes from './controller';
 
-module.exports = {
+export default {
   Routes,
 };

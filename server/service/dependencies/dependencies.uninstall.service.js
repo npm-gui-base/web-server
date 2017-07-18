@@ -19,7 +19,7 @@ function cutDevDependence(repo, name) {
       dependency.key === name && dependency.repo === repo), 1);
 }
 
-module.exports = {
+export default {
   uninstall(isDev, repo, name) {
     return Rx.Observable.create((observer) => {
       CommandsService

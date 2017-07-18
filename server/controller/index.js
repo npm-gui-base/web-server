@@ -1,13 +1,13 @@
-const Crawler = require('./crawler/crawler.routes');
-const Dependencies = require('./dependencies/dependencies.routes');
-const GlobalPackages = require('./globalPackages/globalPackages.routes');
-const DependenciesBin = require('./dependenciesBin/dependenciesBin.routes');
-const Project = require('./project/project.routes');
-const Static = require('./static/static.routes');
-const Tasks = require('./tasks/tasks.routes');
-const Search = require('./search/search.routes');
+import Crawler from './crawler/crawler.routes';
+import Dependencies from './dependencies/dependencies.routes';
+import GlobalPackages from './globalPackages/globalPackages.routes';
+import DependenciesBin from './dependenciesBin/dependenciesBin.routes';
+import Project from './project/project.routes';
+import Static from './static/static.routes';
+import Tasks from './tasks/tasks.routes';
+import Search from './search/search.routes';
 
-module.exports = {
+export default {
   Crawler,
   Dependencies,
   GlobalPackages,

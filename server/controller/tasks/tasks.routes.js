@@ -1,5 +1,5 @@
-const express = require('express');
-const tasksController = require('./tasks.controller');
+import express from 'express';
+import tasksController from './tasks.controller';
 
 const tasksRouter = express.Router(); // eslint-disable-line
 
@@ -11,4 +11,4 @@ tasksRouter.post('/:name', tasksController.whenPost);
 // other
 tasksRouter.get('/:name/help', tasksController.whenGetHelp);
 
-module.exports = tasksRouter;
+export default tasksRouter;

@@ -1,7 +1,7 @@
-const express = require('express');
-const crawlerController = require('./crawler.controller');
+import express from 'express';
+import CrawlerController from './crawler.controller';
 
 const crawlerRouter = express.Router(); // eslint-disable-line
-crawlerRouter.get('/:path', crawlerController.whenGet);
+crawlerRouter.get('/:path', CrawlerController.whenGet);
 
-module.exports = crawlerRouter;
+export default crawlerRouter;

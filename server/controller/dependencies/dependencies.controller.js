@@ -1,20 +1,17 @@
-const NpmGuiCore = require('../../core');
+import NpmGuiCore from '../../core';
 
-const UtilsService = NpmGuiCore.Service.Utils;
-const CommandsService = NpmGuiCore.Service.Commands;
-const ProjectService = NpmGuiCore.Service.Project;
-const DependenciesService = NpmGuiCore.Service.Dependencies;
+const Service = NpmGuiCore.Service;
 
-module.exports = {
+export default {
   whenPut(req, res) {
     const repo = req.params.repo;
     const args = [
       req.body.key + (req.body.value ? `@${req.body.value}` : ''),
-      UtilsService.isDevDependencies(req) ? '-D' : '-S',
+      Service.Utils.isDevDependencies(req) ? '-D' : '-S',
     ];
 
-    CommandsService
-      .run(CommandsService.cmd[repo].install, true, args)
+    Service.Commands
+      .run(Service.Commands.cmd[repo].install, true, args)
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send();
@@ -23,16 +20,16 @@ module.exports = {
 
   whenDelete(req, res) {
     const repo = req.params.repo;
-    const args = [req.params.name, UtilsService.isDevDependencies(req) ? '-D' : '-S'];
+    const args = [req.params.name, Service.Utils.isDevDependencies(req) ? '-D' : '-S'];
 
     // this should call method in modulesService
-    CommandsService
-      .run(CommandsService.cmd[repo].remove, true, args)
+    Service.Commands
+      .run(Service.Commands.cmd[repo].remove, true, args)
       .subscribe(() => {
         // bugfix
         // TODO tests
-        const packageJson = ProjectService.getPackageJson(repo);
-        if (UtilsService.isDevDependencies(req)) {
+        const packageJson = Service.Project.getPackageJson(repo);
+        if (Service.Utils.isDevDependencies(req)) {
           packageJson.removeDevDependence(req.params.name);
         } else {
           packageJson.removeDependence(req.params.name);
@@ -44,8 +41,8 @@ module.exports = {
   },
 
   whenGet(req, res) {
-    DependenciesService
-      .get(UtilsService.isDevDependencies(req))
+    Service.Dependencies
+      .get(Service.Utils.isDevDependencies(req))
       .subscribe((dependencies) => {
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(dependencies);
@@ -53,7 +50,7 @@ module.exports = {
   },
 
   whenGetReinstallAll(req, res) {
-    DependenciesService
+    Service.Dependencies
       .reinstallAllDependencies()
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
@@ -63,9 +60,9 @@ module.exports = {
 
   whenPostUpdateAll(req, res) {
     const type = req.body.type;
-    const isDev = UtilsService.isDevDependencies(req);
+    const isDev = Service.Utils.isDevDependencies(req);
 
-    DependenciesService
+    Service.Dependencies
       .updateAllDependencies(isDev, type)
       .subscribe((dependencies) => {
         res.setHeader('Content-Type', 'application/json');
@@ -75,14 +72,14 @@ module.exports = {
 
   whenGetNSP(req, res) {
     // this also should call ModulesService for help
-    CommandsService
-      .run(CommandsService.cmd.nsp.check)
+    Service.Commands
+      .run(Service.Commands.cmd.nsp.check)
       .subscribe(() => {
         // TODO
         /* const dependencies = {};
         if (data.stderr) {
-          UtilsService.buildObjectFromArray(
-            UtilsService.parseJSON(data.stderr), dependencies, 'module');
+          Service.Utils.buildObjectFromArray(
+            Service.Utils.parseJSON(data.stderr), dependencies, 'module');
         }*/
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send({});
@@ -90,7 +87,7 @@ module.exports = {
   },
 
   whenGetPrune(req, res) {
-    DependenciesService
+    Service.Dependencies
       .prune()
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');
@@ -99,7 +96,7 @@ module.exports = {
   },
 
   whenGetDedupe(req, res) {
-    DependenciesService
+    Service.Dependencies
       .dedupe()
       .subscribe(() => {
         res.setHeader('Content-Type', 'application/json');

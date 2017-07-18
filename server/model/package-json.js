@@ -2,7 +2,7 @@
 const UtilsService = require('../service/utils/utils.service.js');
 const fs = require('fs');
 
-module.exports = class PackageJson {
+export default class PackageJson {
   constructor(path, name = 'package') {
     this.path = path;
     this.name = `${name}.json`;
@@ -109,4 +109,4 @@ module.exports = class PackageJson {
   getParsed() {
     return this.parsedPackage;
   }
-};
+}

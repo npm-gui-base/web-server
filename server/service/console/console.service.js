@@ -2,7 +2,7 @@ const WebSocketServer = require('ws').Server;
 
 let consoleSocket = null;
 
-module.exports = {
+export default {
   send(msg) {
     if (consoleSocket) {
       consoleSocket.send(msg);
