@@ -1,7 +1,7 @@
-const Rx = require('rx');
-const ProjectService = require('../../service/project/project.service.js');
-const CommandsService = require('../../service/commands/commands.service.js');
-const rimraf = require('rimraf');
+import Rx from 'rx';
+import ProjectService from '../../service/project/project.service.js';
+import CommandsService from '../../service/commands/commands.service.js';
+import rimraf from 'rimraf';
 
 function reinstallAllDependenciesForRepo(repo) {
   return Rx.Observable.create((observer) => {
@@ -29,7 +29,7 @@ function reinstallAllDependenciesForRepo(repo) {
   });
 }
 
-module.exports.reinstallAllDependencies = function reinstallAllDependencies() {
+function reinstallAllDependencies() {
   // force check versions
   this.modules.lastId = null;
   this.devModules.lastId = null;
@@ -46,4 +46,9 @@ module.exports.reinstallAllDependencies = function reinstallAllDependencies() {
         observer.onCompleted();
       });
   });
+}
+
+
+export default {
+  reinstallAllDependencies,
 };

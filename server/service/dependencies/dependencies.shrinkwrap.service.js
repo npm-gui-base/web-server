@@ -1,6 +1,6 @@
-const Rx = require('rx');
-const CommandsService = require('../../service/commands/commands.service.js');
-const ProjectService = require('../../service/project/project.service.js');
+import Rx from 'rx';
+import CommandsService from '../../service/commands/commands.service.js';
+import ProjectService from '../../service/project/project.service.js';
 
 function shrinkwrapModules(repo) {
   return Rx.Observable.create((observer) => {
@@ -19,7 +19,7 @@ function shrinkwrapModules(repo) {
   });
 }
 
-module.exports.shrinkwrap = function shrinkwrap() {
+function shrinkwrap() {
   return Rx.Observable.create((observer) => {
     const npmShrinkwrapSource = shrinkwrapModules('npm');
     const bowerShrinkwrapSource = shrinkwrapModules('bower');
@@ -32,4 +32,8 @@ module.exports.shrinkwrap = function shrinkwrap() {
         observer.onCompleted();
       });
   });
+}
+
+export default {
+  shrinkwrap,
 };

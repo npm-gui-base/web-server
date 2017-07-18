@@ -1,6 +1,6 @@
-const Rx = require('rx');
-const CommandsService = require('../../service/commands/commands.service.js');
-const ProjectService = require('../../service/project/project.service.js');
+import Rx from 'rx';
+import CommandsService from '../../service/commands/commands.service.js';
+import ProjectService from '../../service/project/project.service.js';
 
 function pruneModules(repo) {
   return Rx.Observable.create((observer) => {
@@ -19,7 +19,7 @@ function pruneModules(repo) {
   });
 }
 
-module.exports.prune = function prune() {
+function prune() {
   return Rx.Observable.create((observer) => {
     const npmPruneSource = pruneModules('npm');
     const bowerPruneSource = pruneModules('bower');
@@ -32,11 +32,9 @@ module.exports.prune = function prune() {
         observer.onCompleted();
       });
   });
-};
+}
 
-
-module.exports.pruneCount = function prune() {
-  return Rx.Observable.create(() => {
-    // TODO
-  });
+export default {
+  prune,
+  pruneCount: prune,
 };

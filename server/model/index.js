@@ -1,4 +1,4 @@
-const PackageJson = require('./package-json');
+import PackageJson from './package-json';
 
 export default {
   PackageJson,

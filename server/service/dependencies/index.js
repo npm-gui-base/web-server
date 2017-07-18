@@ -1,30 +1,29 @@
-const updateAllDependencies
-  = require('./dependencies.updateAll.service.js').updateAllDependencies;
+import UpdateAllService from './dependencies.updateAll.service.js';
+import ReinstallService from './dependencies.reinstall.service.js';
+import ShrinkwrapService from './dependencies.shrinkwrap.service.js';
+import DedupeService from './dependencies.dedupe.service.js';
+import PruneService from './dependencies.prune.service.js';
+import DependenciesService from './dependencies.service.js';
 
-const reinstallAllDependencies
-  = require('./dependencies.reinstall.service.js').reinstallAllDependencies;
-
-const dedupe = require('./dependencies.dedupe.service.js').dedupe;
-const prune = require('./dependencies.prune.service.js').prune;
-const shrinkwrap = require('./dependencies.shrinkwrap.service.js').shrinkwrap;
-const get = require('./dependencies.service.js').get;
 
 // ///////////////////
-export default function ModuleService() {
-  this.modules = {
-    lastId: null,
-    all: {},
-  };
+// export default function ModuleService() {
+//   this.modules = {
+//     lastId: null,
+//     all: {},
+//   };
 
-  this.devModules = {
-    lastId: null,
-    all: {},
-  };
-}
+//   this.devModules = {
+//     lastId: null,
+//     all: {},
+//   };
+// }
 
-module.exports.get = get;
-module.exports.reinstallAllDependencies = reinstallAllDependencies;
-module.exports.dedupe = dedupe;
-module.exports.shrinkwrap = shrinkwrap;
-module.exports.prune = prune;
-module.exports.updateAllDependencies = updateAllDependencies;
+export default {
+  get: DependenciesService.get,
+  reinstallAllDependencies: ReinstallService.reinstallAllDependencies,
+  dedupe: DedupeService.dedupe,
+  shrinkwrap: ShrinkwrapService.shrinkwrap,
+  prune: PruneService.prune,
+  updateAllDependencies: UpdateAllService.updateAllDependencies,
+};

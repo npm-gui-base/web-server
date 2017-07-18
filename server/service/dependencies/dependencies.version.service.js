@@ -1,5 +1,5 @@
-const CommandsService = require('../commands/commands.service.js');
-const UtilsService = require('../utils/utils.service.js');
+import CommandsService from '../commands/commands.service.js';
+import UtilsService from '../utils/utils.service.js';
 
 const methodsFor = {
   bower: {

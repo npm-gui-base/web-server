@@ -1,6 +1,6 @@
-const Rx = require('rx');
-const CommandsService = require('../../service/commands/commands.service.js');
-const ProjectService = require('../../service/project/project.service.js');
+import Rx from 'rx';
+import CommandsService from '../../service/commands/commands.service.js';
+import ProjectService from '../../service/project/project.service.js';
 
 
 function cutDependence(repo, name) {

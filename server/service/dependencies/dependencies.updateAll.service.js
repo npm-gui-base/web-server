@@ -1,7 +1,7 @@
-const Rx = require('rx');
-const ProjectService = require('../../service/project/project.service');
-const CommandsService = require('../../service/commands/commands.service');
-const UtilsService = require('../../service/utils/utils.service');
+import Rx from 'rx';
+import ProjectService from '../../service/project/project.service';
+import CommandsService from '../../service/commands/commands.service';
+import UtilsService from '../../service/utils/utils.service';
 
 function updateAllDependenciesForRepo(isDev, type, repo) {
   return Rx.Observable.create((observer) => {
@@ -60,7 +60,7 @@ function updateAllDependenciesForRepo(isDev, type, repo) {
 }
 
 
-module.exports.updateAllDependencies = function updateAllDependencies(isDev, type) {
+function updateAllDependencies(isDev, type) {
   return Rx.Observable.create((observer) => {
     //  updateModulesInfo() we will not update modules again
     //    .subscribe(function () {
@@ -76,4 +76,8 @@ module.exports.updateAllDependencies = function updateAllDependencies(isDev, typ
         observer.onCompleted();
       });
   });
+}
+
+export default {
+  updateAllDependencies,
 };

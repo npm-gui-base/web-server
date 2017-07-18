@@ -1,4 +1,6 @@
-const WebSocketServer = require('ws').Server;
+import Ws from 'ws';
+
+const WebSocketServer = Ws.Server;
 
 let consoleSocket = null;
 

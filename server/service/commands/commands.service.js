@@ -1,8 +1,8 @@
-const spawn = require('cross-spawn');
-const cmd = require('./commands.constants.js');
+import spawn from 'cross-spawn';
 //
-const ProjectService = require('../project/project.service.js');
-const ConsoleService = require('../console/console.service.js');
+import cmd from './commands.constants.js';
+import ProjectService from '../project/project.service.js';
+import ConsoleService from '../console/console.service.js';
 
 export default {
   cmd,

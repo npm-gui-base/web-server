@@ -1,6 +1,6 @@
 // this should be removed
-const UtilsService = require('../service/utils/utils.service.js');
-const fs = require('fs');
+import fs from 'fs';
+import UtilsService from '../service/utils/utils.service.js';
 
 export default class PackageJson {
   constructor(path, name = 'package') {
