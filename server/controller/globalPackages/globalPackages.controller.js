@@ -5,51 +5,47 @@ const UtilsService = Service.Utils;
 const CommandsService = Service.Commands;
 
 // this also need service or be in modules service
-function whenPut(req, res) {
+async function whenPut(req, res) {
   const putCommand = JSON.parse(JSON.stringify(CommandsService.cmd.npm.install));
   putCommand.args.push(req.body.key + (req.body.value ? `@${req.body.value}` : ''));
   putCommand.args.push('-g');
 
-  CommandsService
-      .run(putCommand, true)
-      .then(() => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send();
-      });
+  await CommandsService.run(putCommand, true);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send();
 }
 
-function whenDelete(req, res) {
-  CommandsService
-      .run(CommandsService.cmd.npm.uninstall, true, [req.params.name, '-g'])
-      .then(() => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send();
-      });
+async function whenDelete(req, res) {
+  await CommandsService.run(CommandsService.cmd.npm.uninstall, true, [req.params.name, '-g']);
+
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send();
 }
 
-function whenGet(req, res) {
-  CommandsService
-      .run(CommandsService.cmd.npm.ls, false, ['-g'])
-      .then((data) => {
-        const dependencies = UtilsService.parseJSON(data.stdout).dependencies;
-        const preparedDependenciesArray = [];
-        UtilsService.buildArrayFromObject(dependencies, preparedDependenciesArray, 'key', 'value');
-        for (let i = 0; i < preparedDependenciesArray.length; i++) {
-          preparedDependenciesArray[i].value = preparedDependenciesArray[i].value.version;
-        }
+async function whenGet(req, res) {
+  const commandResult = await CommandsService.run(CommandsService.cmd.npm.ls, false, ['-g']);
 
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send(preparedDependenciesArray);
-      });
+  const dependencies = UtilsService.parseJSON(commandResult.stdout).dependencies;
+  const preparedDependenciesArray = [];
+  UtilsService.buildArrayFromObject(dependencies, preparedDependenciesArray, 'key', 'value');
+  for (let i = 0; i < preparedDependenciesArray.length; i++) {
+    preparedDependenciesArray[i].value = preparedDependenciesArray[i].value.version;
+  }
+
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200).send(preparedDependenciesArray);
 }
 
-function whenGetVersions(req, res) {
+async function whenGetVersions(req, res) {
   let dependencies = null;
 
+  // TODO?
+
   CommandsService
       .run(CommandsService.cmd.npm.ls, false, ['-g'])
-      .then((data) => {
-        dependencies = UtilsService.parseJSON(data.stdout).dependencies;
+      .then((commandResult) => {
+        dependencies = UtilsService.parseJSON(commandResult.stdout).dependencies;
         return CommandsService.run(CommandsService.cmd.npm.ls, false, ['-g']);
       })
       .then((data) => {
@@ -65,7 +61,7 @@ function whenGetVersions(req, res) {
       });
 }
 
-function whenGetNSP(req, res) {
+async function whenGetNSP(req, res) {
     // TODO?
   res.setHeader('Content-Type', 'application/json');
   res.status(200).send({});

@@ -1,7 +1,8 @@
 import Rx from 'rx';
+import rimraf from 'rimraf';
+
 import ProjectService from '../../service/project/project.service.js';
 import CommandsService from '../../service/commands/commands.service.js';
-import rimraf from 'rimraf';
 
 function reinstallAllDependenciesForRepo(repo) {
   return Rx.Observable.create((observer) => {

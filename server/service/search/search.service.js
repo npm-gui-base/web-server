@@ -1,16 +1,17 @@
-import Rx from 'rx';
 import request from 'request';
 
+function requestWithPromise(url) {
+  return new Promise((resolve) => {
+    request(url, (error, response, body) => {
+      resolve(body);
+    });
+  });
+}
+
 function searchBower(query) {
-  return Rx.Observable.just(`https://libraries.io/api/bower-search?q=${query}`)
-    .flatMap((url) => Rx.Observable.create((observer) => {
-      request(url, (error, response, body) => {
-        observer.onNext(body);
-        observer.onCompleted();
-      });
-    }))
-    .map(response => JSON.parse(response))
-    .map(results => {
+  return requestWithPromise(`https://libraries.io/api/bower-search?q=${query}`)
+    .then(response => JSON.parse(response))
+    .then(results => {
       const resultsFiltered = [];
 
       results.forEach((result) => {
@@ -28,16 +29,10 @@ function searchBower(query) {
 }
 
 function searchNPM(query) {
-  return Rx.Observable.just(`https://api.npms.io/v2/search?from=0&size=25&q=${query}`)
-    .flatMap((url) => Rx.Observable.create((observer) => {
-      request(url, (error, response, body) => {
-        observer.onNext(body);
-        observer.onCompleted();
-      });
-    }))
-    .map(response => JSON.parse(response))
-    .map(responseJson => responseJson.results)
-    .map(results => {
+  return requestWithPromise(`https://api.npms.io/v2/search?from=0&size=25&q=${query}`)
+    .then(response => JSON.parse(response))
+    .then(responseJson => responseJson.results)
+    .then(results => {
       const resultsFiltered = [];
 
       results.forEach((result) => {
