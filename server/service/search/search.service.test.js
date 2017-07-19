@@ -1,4 +1,4 @@
-require('should');
+require('should'); // eslint-disable-line
 
 const ProjectService = require('./search.service.js');
 
@@ -35,7 +35,7 @@ describe('ProjectService', () => {
       ProjectService.setPath(`${process.cwd()}/test-project/empty`);
 
       ProjectService.getPath().should.be.eql(`${process.cwd()}/test-project/empty`);
-    })
+    });
   });
 
   describe('async isRepoAvailableTest', () => {
@@ -51,7 +51,7 @@ describe('ProjectService', () => {
       it('when false', () => {
         ProjectService.setPath(`${process.cwd()}/test-project/empty`);
         ProjectService.isRepoAvailableTest('bower')
-          .subscribeOnCompleted(()=> {
+          .subscribeOnCompleted(() => {
             ProjectService.isRepoAvailable('bower').should.be.eql(false);
           });
       });
@@ -85,6 +85,6 @@ describe('ProjectService', () => {
   describe('getPackageJson', () => {
     it('should return new object', () => {
       ProjectService.getPackageJson().should.be.an.Object();
-    })
+    });
   });
 });

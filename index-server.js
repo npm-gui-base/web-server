@@ -5,23 +5,20 @@ import bodyParser from 'body-parser';
 import NpmGuiCore from './server/core';
 import NpmGuiControllers from './server/controllers';
 
-global.appRoot = path.resolve(__dirname);
-const app = express();
-
-
 // Define a port/host we want to listen to
 const PORT = 1337;
 const HOST = '0.0.0.0';
 
 
+const app = express();
+
 // middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// use routes
-app.use('/', NpmGuiControllers.Routes.Static(`${global.appRoot}/dist/web-client`)); // eslint-disable-line
+// routes
+app.use('/', NpmGuiControllers.Routes.Static.onPath(`${path.resolve(__dirname)}/dist/web-client`));
+
 app.use('/api/dependencies', NpmGuiControllers.Routes.Dependencies);
 app.use('/api/dependencies-dev', NpmGuiControllers.Routes.Dependencies);
 app.use('/api/dependencies-bin', NpmGuiControllers.Routes.DependenciesBin);

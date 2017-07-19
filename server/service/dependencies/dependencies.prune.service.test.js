@@ -1,7 +1,7 @@
-require('should');
-const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-require('should-sinon');
+require('should'); // eslint-disable-line
+const proxyquire = require('proxyquire'); // eslint-disable-line
+const sinon = require('sinon'); // eslint-disable-line
+require('should-sinon'); // eslint-disable-line
 
 const RxMock = {
   subscribe: sinon.stub().callsArg(0),
@@ -9,11 +9,11 @@ const RxMock = {
   onCompleted: sinon.stub(),
 };
 
-const RxStub = {
-  Observable: {
-    create: () => RxMock,
-  },
-};
+// const RxStub = {
+//   Observable: {
+//     create: () => RxMock,
+//   },
+// };
 
 const CommandsServiceMock = {
   run: sinon.stub().returns(RxMock),

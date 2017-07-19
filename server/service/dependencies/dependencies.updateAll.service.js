@@ -47,7 +47,6 @@ function updateAllDependenciesForRepo(isDev, type, repo) {
 
     // save file
     packageJson.save();
-    console.log(repo, ' saved');
 
     // run install command
     CommandsService

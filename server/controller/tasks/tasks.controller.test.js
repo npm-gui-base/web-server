@@ -1,20 +1,20 @@
-var chai = require('chai').should();
-var expect = chai.expect;
-var sinon = require('sinon');
+const chai = require('chai').should(); // eslint-disable-line
+const expect = chai.expect; // eslint-disable-line
+const sinon = require('sinon'); // eslint-disable-line
 
-var tasksController = require('./tasks.controller');
+// const tasksController = require('./tasks.controller');
 
-describe('Tasks Controller', function() {
-    describe("GET", function() {
+describe('Tasks Controller', () => {
+  describe('GET', () => {
 
-    });
-    describe("PUT", function() {
+  });
+  describe('PUT', () => {
 
-    });
-    describe("DELETE", function() {
+  });
+  describe('DELETE', () => {
 
-    });
-    describe("POST", function() {
+  });
+  describe('POST', () => {
 
-    });
+  });
 });

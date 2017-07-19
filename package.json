@@ -13,9 +13,9 @@
     "test:unit": "karma start test/unit/karma.conf.js --single-run",
     "lint": "npm run lint:css && npm run lint:js",
     "lint:css": "node node_modules/stylelint/dist/cli.js 'components/*/**.vue' *.scss --syntax scss",
-    "lint:js": "node node_modules/eslint/bin/eslint 'components/*/**.vue' 'components/*/**.js'",
+    "lint:js": "node node_modules/eslint/bin/eslint \"web-client/components/**/**.vue\" \"web-client/components/**/**.js\" \"server/**/**.js\" ",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run lint",
+    "test": "npm run lint:js",
     "test:unit:core": "node node_modules/mocha/bin/mocha ./service/**/*.test.js --compilers js:babel-register --require babel-polyfill"
   },
   "repository": {

@@ -14,4 +14,6 @@ function staticByPath(staticPath) {
   return staticRouter;
 }
 
-export default staticByPath;
+export default {
+  onPath: staticByPath,
+};

@@ -1,213 +1,215 @@
-var chai = require('chai');
-var expect = chai.expect;
-var sinon = require('sinon');
-var rewire = require('rewire');
-//promise stub
-var sinonStubPromise = require('sinon-stub-promise');
+const chai = require('chai'); // eslint-disable-line
+const expect = chai.expect;
+const sinon = require('sinon'); // eslint-disable-line
+const rewire = require('rewire'); // eslint-disable-line
+// promise stub
+const sinonStubPromise = require('sinon-stub-promise'); // eslint-disable-line
 sinonStubPromise(sinon);
 
-//application:
-var modulesController = rewire('./modules.controller');
-var commands = rewire('../../helpers/commands');
-var helpers = rewire('../../helpers/helpers');
+// application:
+const modulesController = rewire('./modules.controller');
+const commands = rewire('../../helpers/commands');
+const helpers = rewire('../../helpers/helpers');
 
-//mocks
-var packageResultsMock = require('../../test/packageJson.mock').resultsMock;
-var res, req, output;
+// mocks
+const packageResultsMock = require('../../test/packageJson.mock').resultsMock; // eslint-disable-line
+
+let res;
+let req;
+let output;
 //
-var isDevModules = true;
+let isDevModules = true;
 
 
-//objects mock
-var PackageJsonMock = function () {
+// objects mock
+const PackageJsonMock = function PackageJsonMock() {
   return {
-    getDependenciesArray: function () {
+    getDependenciesArray() {
       return packageResultsMock.dependencies;
     },
-    getDevDependenciesArray: function () {
+    getDevDependenciesArray() {
       return packageResultsMock.devDependencies;
-    }
+    },
   };
 };
 
-var HelpersMock = {
-  isDevModules: function () {
+const HelpersMock = {
+  isDevModules() {
     return isDevModules;
   },
   buildObjectFromArray: helpers.buildObjectFromArray,
-  JSONparse: helpers.JSONparse
+  JSONparse: helpers.JSONparse,
 };
 
-var CommandsMock = {
-  run: function () {
+const CommandsMock = {
+  run() {
   },
   runStubs: {},
   nsp: commands.nsp,
-  npm: commands.npm
+  npm: commands.npm,
 };
 
-describe('Modules Controller', function () {
-  before(function () {
-    modulesController.__set__({
-      'PackageJson': PackageJsonMock,
-      'helpers': HelpersMock,
-      'commands': CommandsMock
+describe('Modules Controller', () => {
+  before(() => {
+    modulesController.__set__({ // eslint-disable-line
+      PackageJson: PackageJsonMock,
+      helpers: HelpersMock,
+      commands: CommandsMock,
     });
 
-    sinon.stub(CommandsMock, 'run', function (command) {
-      return CommandsMock.runStubs[JSON.stringify(command)](arguments);
-    });
+    sinon.stub(CommandsMock, 'run', (command, ...arg) =>
+      CommandsMock.runStubs[JSON.stringify(command)](arg));
 
     res = {
-      setHeader: function () {
+      setHeader() {
       },
-      status: function () {
+      status() {
         return this;
       },
-      send: function (out) {
+      send(out) {
         output = out;
-      }
+      },
     };
 
     req = {
       originalUrl: '',
       body: {
-        key: 'npm-gui'
+        key: 'npm-gui',
       },
       params: {
         name: 'npm-gui',
-        repo: 'npm'
-      }
+        repo: 'npm',
+      },
     };
 
     output = '';
   });
 
-  describe("GET", function () {
-    it('should return array of dependencies', function () {
-      //preparation
+  describe('GET', () => {
+    it('should return array of dependencies', () => {
+      // preparation
       isDevModules = false;
 
-      //execute
+      // execute
       modulesController.whenGet(req, res);
 
-      //test
+      // test
       expect(output[0]).to.deep.equal(packageResultsMock.dependencies[0]);
       expect(output[1]).to.deep.equal(packageResultsMock.dependencies[1]);
     });
 
-    it('should return array of dev dependencies', function () {
-      //preparation
+    it('should return array of dev dependencies', () => {
+      // preparation
       isDevModules = true;
 
-      //execute
+      // execute
       modulesController.whenGet(req, res);
 
-      //test
+      // test
       expect(output[0]).to.deep.equal(packageResultsMock.devDependencies[0]);
       expect(output[1]).to.deep.equal(packageResultsMock.devDependencies[1]);
     });
   });
 
-  describe("PUT", function () {
-    it('should install regular dependency', function () {
-      //preparation
+  describe('PUT', () => {
+    it('should install regular dependency', () => {
+      // preparation
       isDevModules = false;
-      var installCommand = JSON.parse(JSON.stringify(commands.npm.install));
+      const installCommand = JSON.parse(JSON.stringify(commands.npm.install));
       installCommand.args.push('npm-gui');
       installCommand.args.push('-S');
 
       CommandsMock.runStubs[JSON.stringify(installCommand)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(installCommand)].resolves({});
 
-      //execute
+      // execute
       modulesController.whenPut(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(installCommand)).to.equal(true);
     });
 
-    it('should install dev dependency', function () {
-      //preparation
+    it('should install dev dependency', () => {
+      // preparation
       isDevModules = true;
-      var installCommand = JSON.parse(JSON.stringify(commands.npm.install));
+      const installCommand = JSON.parse(JSON.stringify(commands.npm.install));
       installCommand.args.push('npm-gui');
       installCommand.args.push('-D');
 
       CommandsMock.runStubs[JSON.stringify(installCommand)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(installCommand)].resolves({});
 
-      //execute
+      // execute
       modulesController.whenPut(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(installCommand)).to.equal(true);
     });
   });
 
-  describe("DELETE", function () {
-    it('should uninstall regular dependency', function () {
-      //preparation
+  describe('DELETE', () => {
+    it('should uninstall regular dependency', () => {
+      // preparation
       isDevModules = false;
-      var uninstallCommand = JSON.parse(JSON.stringify(commands.npm.uninstall));
+      const uninstallCommand = JSON.parse(JSON.stringify(commands.npm.uninstall));
       uninstallCommand.args.push('npm-gui');
       uninstallCommand.args.push('-S');
 
       CommandsMock.runStubs[JSON.stringify(uninstallCommand)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(uninstallCommand)].resolves({});
 
-      //execute
+      // execute
       modulesController.whenDelete(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(uninstallCommand)).to.equal(true);
     });
 
-    it('should uninstall dev dependency', function () {
-      //preparation
+    it('should uninstall dev dependency', () => {
+      // preparation
       isDevModules = true;
-      var uninstallCommand = JSON.parse(JSON.stringify(commands.npm.uninstall));
+      const uninstallCommand = JSON.parse(JSON.stringify(commands.npm.uninstall));
       uninstallCommand.args.push('npm-gui');
       uninstallCommand.args.push('-D');
 
       CommandsMock.runStubs[JSON.stringify(uninstallCommand)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(uninstallCommand)].resolves({});
 
-      //execute
+      // execute
       modulesController.whenDelete(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(uninstallCommand)).to.equal(true);
     });
   });
 
-  describe("NSP- GET", function () {
-    it('should return insecure dependency from nsp command', function () {
-      //preparation
+  describe('NSP- GET', () => {
+    it('should return insecure dependency from nsp command', () => {
+      // preparation
       CommandsMock.runStubs[JSON.stringify(commands.nsp.check)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(commands.nsp.check)].resolves({
-        stderr: '[{ "module": "angular" }, { "module": "tor" }]'
+        stderr: '[{ "module": "angular" }, { "module": "tor" }]',
       });
 
-      //execute
+      // execute
       modulesController.whenGetNSP(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(commands.nsp.check)).to.equal(true);
       expect(output).to.deep.equal({
         angular: {
-          module: "angular"
+          module: 'angular',
         },
         tor: {
-          module: "tor"
-        }
+          module: 'tor',
+        },
       });
     });
   });
 
-  describe("Versions - GET", function () {
-    it('should return full info about versions', function () {
-      //preparation
+  describe('Versions - GET', () => {
+    it('should return full info about versions', () => {
+      // preparation
       CommandsMock.runStubs[JSON.stringify(commands.npm.ls)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(commands.npm.ls)].resolves({
         stdout: '{' +
@@ -218,7 +220,7 @@ describe('Modules Controller', function () {
         '           "version": "2.4.0"' +
         '       }' +
         '   }' +
-        '}'
+        '}',
       });
       CommandsMock.runStubs[JSON.stringify(commands.npm.outdated)] = sinon.stub().returnsPromise();
       CommandsMock.runStubs[JSON.stringify(commands.npm.outdated)].resolves({
@@ -229,13 +231,13 @@ describe('Modules Controller', function () {
         '       "latest": "3.0.1",' +
         '       "location": "node_modules/angular"' +
         '   }' +
-        '}'
+        '}',
       });
 
-      //execute
+      // execute
       modulesController.whenGetVersions(req, res);
 
-      //test
+      // test
       expect(CommandsMock.run.calledWith(commands.npm.ls)).to.equal(true);
       expect(CommandsMock.run.calledWith(commands.npm.outdated)).to.equal(true);
       expect(output).to.deep.equal({
@@ -243,7 +245,7 @@ describe('Modules Controller', function () {
           version: '2.4.0',
           wanted: '2.4.5',
           latest: '3.0.1',
-        }
+        },
       });
     });
   });

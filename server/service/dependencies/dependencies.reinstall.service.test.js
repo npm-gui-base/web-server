@@ -4,7 +4,7 @@ const CommandsService = require('../../service/commands/commands.service.js');
 const rimraf = require('rimraf');
 
 function reinstallAllDependenciesForRepo(repo) {
-  return Rx.Observable.create(function (observer) {
+  return Rx.Observable.create((observer) => {
     // if repo unavailable complete subscription
     if (!ProjectService.isRepoAvailable[repo]) {
       observer.onNext();

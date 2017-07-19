@@ -6,9 +6,9 @@ module.exports = {
   },
   extends: 'airbnb-base',
   // required to lint *.vue files
-  // plugins: [
-  //   'html'
-  // ],
+  plugins: [
+    'html'
+  ],
   // check if imports actually resolve
   settings: {
     'import/resolver': {
@@ -17,9 +17,15 @@ module.exports = {
       }
     }
   },
-  global: {
+  globals: {
     describe: true,
+    xdescribe: true,
+    fdescribe: true,
     it: true,
+    xit: true,
+    fit: true,
+    before: true,
+    beforeEach: true,
   }
   // add your custom rules here
   // rules: {

@@ -1,4 +1,4 @@
-require('should');
+require('should'); // eslint-disable-line
 const CommandsService = require('./commands.service');
 const ProjectService = require('../project/project.service');
 const rimraf = require('rimraf');

@@ -1,12 +1,11 @@
-require('should');
+require('should'); // eslint-disable-line
 // const proxyquire = require('proxyquire');
-const sinon = require('sinon');
-require('should-sinon');
+const sinon = require('sinon'); // eslint-disable-line
+require('should-sinon'); // eslint-disable-line
 
 const Utils = require('./utils.service');
 
 describe('Utils', () => {
-
   describe('isDevDependencies', () => {
     it('should return true', () => {
       Utils.isDevDependencies({

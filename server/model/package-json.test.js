@@ -1,4 +1,4 @@
-require('should');
+require('should'); // eslint-disable-line
 // const proxyquire = require('proxyquire');
 // const sinon = require('sinon');
 // require('should-sinon');
@@ -9,7 +9,6 @@ let packageJson = null;
 // this would be real files in test-project
 
 describe('PackageJson test', () => {
-
   beforeEach(() => {
     packageJson = new PackageJson('./test-project');
   });
@@ -45,12 +44,12 @@ describe('PackageJson test', () => {
   });
 
   describe('dev dependencies', () => {
-    it('should list all', () => {
-      packageJson.getDevDependencies().to.deep.equal(packageMock.devDependencies);
+    it('should list all', () => { // TODO
+      packageJson.getDevDependencies().to.deep.equal(packageMock.devDependencies); // eslint-disable-line
     });
 
     it('should list all as Array', () => {
-      packageJson.getDevDependenciesArray().to.deep.equal(resultsMock.devDependencies);
+      packageJson.getDevDependenciesArray().to.deep.equal(resultsMock.devDependencies); // eslint-disable-line
     });
 
     it('should remove one', () => {
@@ -61,12 +60,12 @@ describe('PackageJson test', () => {
   });
 
   describe('tasks', () => {
-    it('should list all scripts', () => {
-      packageJson.getTasks().to.deep.equal(packageMock.scripts);
+    it('should list all scripts', () => { // TODO
+      packageJson.getTasks().to.deep.equal(packageMock.scripts); // eslint-disable-line
     });
 
-    it('should list all as Array', () => {
-      packageJson.getTasksArray().to.deep.equal(resultsMock.scripts);
+    it('should list all as Array', () => { // TODO
+      packageJson.getTasksArray().to.deep.equal(resultsMock.scripts); // eslint-disable-line
     });
 
     it('should remove one', () => {
@@ -79,7 +78,7 @@ describe('PackageJson test', () => {
       packageJson.getTasks()['my-start'].to.equal(undefined);
       packageJson.addTask('my-start', 'value');
       packageJson.getTasks()['my-start'].to.not.equal(undefined);
-      //TODO writefilesync test
+      // TODO writefilesync test
     });
   });
 
