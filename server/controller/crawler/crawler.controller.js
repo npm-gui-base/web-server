@@ -17,8 +17,7 @@ function whenGet(req, res) {
           name: data[i],
         });
       }
-      res.setHeader('Content-Type', 'application/json');
-      res.status(200).send({
+      res.json({
         path: normalizedPath,
         files: dataToReturn,
       });

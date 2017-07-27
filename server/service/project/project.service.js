@@ -1,4 +1,3 @@
-import Rx from 'rx';
 import fsAccess from 'fs-access';
 import PackageJson from '../../model/package-json.js';
 
@@ -24,14 +23,13 @@ export default {
 
   isRepoAvailableTest(repo) {
     const fileToTest = repo === 'bower' ? 'bower.json' : 'package.json';
-    return Rx.Observable.create((observer) => {
+    return new Promise((resolve, reject) => {
       fsAccess(`${this.getPath()}/${fileToTest}`, (err) => {
         if (!err) {
-          observer.onNext(true);
+          resolve(true);
         } else {
-          observer.onError(false);
+          reject(false);
         }
-        observer.onCompleted();
       });
     });
   },
@@ -41,29 +39,24 @@ export default {
   },
 
   checkReposAvailability() {
-    return Rx.Observable.create((observer) => {
-      const sourceBower = this.isRepoAvailableTest('bower');
-      sourceBower
-        .subscribe(() => {
+    return new Promise((resolve) => {
+      const bowerTest = this.isRepoAvailableTest('bower')
+        .then(() => {
           isRepoAvailable.bower = true;
-        }, () => {
+        })
+        .catch(() => {
           isRepoAvailable.bower = false;
         });
 
-      const sourceNPM = this.isRepoAvailableTest('npm');
-      sourceNPM
-        .subscribe(() => {
+      const npmTest = this.isRepoAvailableTest('npm')
+        .then(() => {
           isRepoAvailable.npm = true;
-        }, () => {
+        })
+        .catch(() => {
           isRepoAvailable.npm = false;
         });
 
-      const source = sourceBower.merge(sourceNPM);
-
-      source.subscribeOnCompleted(() => {
-        observer.onNext();
-        observer.onCompleted();
-      });
+      Promise.all([bowerTest, npmTest]).then(resolve);
     });
   },
 

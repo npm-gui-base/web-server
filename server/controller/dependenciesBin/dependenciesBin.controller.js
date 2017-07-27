@@ -15,8 +15,7 @@ function whenGet(req, res) {
           key: data[i],
         });
       }
-      res.setHeader('Content-Type', 'application/json');
-      res.status(200).send(binModules);
+      res.json(binModules);
     });
 }
 

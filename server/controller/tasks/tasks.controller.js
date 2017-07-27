@@ -6,28 +6,26 @@ const PackageJson = NpmGuiCore.Model.PackageJson;
 
 function whenGet(req, res) {
   const packageJson = new PackageJson();
-  res.setHeader('Content-Type', 'application/json');
-  res.status(200).send(packageJson.getTasksArray());
+  res.json(packageJson.getTasksArray());
 }
 
 function whenPut(req, res) {
   const packageJson = new PackageJson();
   packageJson.addTask(req.body.key, req.body.value);
-  res.status(200).send();
+  res.json();
 }
 
 function whenDelete(req, res) {
   const packageJson = new PackageJson();
   packageJson.removeTask(req.params.name);
-  res.status(200).send();
+  res.json();
 }
 
 function whenPost(req, res) {
   CommandsService
       .run(CommandsService.cmd.npm.run, true, [req.params.name])
       .then(() => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send();
+        res.json();
       });
 }
 
@@ -42,8 +40,7 @@ function whenGetHelp(req, res) {
           })
       )
       .then((data) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send({
+        res.json({
           text: (data.stdout + data.stderr),
           flags: (data.stdout + data.stderr).match(/[-]{1,2}[a-zA-Z0-9]+/g),
         });

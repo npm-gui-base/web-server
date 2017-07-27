@@ -7,7 +7,7 @@ import ConsoleService from '../console/console.service.js';
 export default {
   cmd,
   run(command, bindConsole = false, additionalArgs = []) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       // make a deep copy
       const commandToSpawn = JSON.parse(JSON.stringify(command));
 
@@ -47,6 +47,14 @@ export default {
       // wait for finish and resolve
       spawned.on('close', () => {
         resolve({
+          stdout,
+          stderr,
+        });
+      });
+
+      // if error
+      spawned.on('error', () => {
+        reject({
           stdout,
           stderr,
         });

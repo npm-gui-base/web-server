@@ -12,15 +12,13 @@ async function whenPut(req, res) {
 
   await CommandsService.run(putCommand, true);
 
-  res.setHeader('Content-Type', 'application/json');
-  res.status(200).send();
+  res.json({});
 }
 
 async function whenDelete(req, res) {
   await CommandsService.run(CommandsService.cmd.npm.uninstall, true, [req.params.name, '-g']);
 
-  res.setHeader('Content-Type', 'application/json');
-  res.status(200).send();
+  res.json({});
 }
 
 async function whenGet(req, res) {
@@ -33,8 +31,7 @@ async function whenGet(req, res) {
     preparedDependenciesArray[i].value = preparedDependenciesArray[i].value.version;
   }
 
-  res.setHeader('Content-Type', 'application/json');
-  res.status(200).send(preparedDependenciesArray);
+  res.json(preparedDependenciesArray);
 }
 
 async function whenGetVersions(req, res) {
@@ -56,15 +53,13 @@ async function whenGetVersions(req, res) {
           }
           dependencies[key].latest = dependency.latest;
         }
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send(dependencies);
+        res.json(dependencies);
       });
 }
 
 async function whenGetNSP(req, res) {
     // TODO?
-  res.setHeader('Content-Type', 'application/json');
-  res.status(200).send({});
+  res.json({});
 }
 
 export default {
