@@ -5,6 +5,11 @@ import bodyParser from 'body-parser';
 import NpmGuiCore from './core';
 import NpmGuiControllers from './controllers';
 
+import {
+  regularDependenciesRouter,
+  devDependenciesRouter,
+} from './controller/dependencies/dependencies.routes';
+
 // Define a port/host we want to listen to
 const PORT = 1337;
 const HOST = '0.0.0.0';
@@ -19,15 +24,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // routes
 // app.use('/', NpmGuiControllers.Routes.Static.onPath(`${path.resolve(__dirname)}/dist/web-client`));
 
-app.use('/api/global', NpmGuiControllers.Routes.GlobalPackages);
+app.use('/api/dependencies/global', NpmGuiControllers.Routes.GlobalPackages);
 // app.use('/api/crawler', NpmGuiControllers.Routes.Crawler);
-// app.use('/api/search', NpmGuiControllers.Routes.Search);
+app.use('/api/search', NpmGuiControllers.Routes.Search);
 
 const projectRouter = express.Router(); // eslint-disable-line
 
-projectRouter.use('/:projectPath/dependencies', NpmGuiControllers.Routes.Dependencies);
-projectRouter.use('/:projectPath/dependencies-dev', NpmGuiControllers.Routes.Dependencies);
-projectRouter.use('/:projectPath/dependencies-bin', NpmGuiControllers.Routes.DependenciesBin);
+projectRouter.use('/:projectPath/dependencies/regular', regularDependenciesRouter);
+projectRouter.use('/:projectPath/dependencies/dev', devDependenciesRouter);
+// projectRouter.use('/:projectPath/dependencies/bin', NpmGuiControllers.Routes.DependenciesBin);
 
 app.use('/api/project', projectRouter);
 

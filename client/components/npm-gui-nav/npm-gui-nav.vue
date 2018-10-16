@@ -54,17 +54,17 @@
         buttons: [
           {
             text: 'Global Dependencies',
-            route: 'global-dependencies',
+            route: '/dependencies/global',
             title: '',
           },
           {
             text: 'Dependencies',
-            route: 'dependencies',
+            route: '/dependencies/regular',
             title: '',
           },
           {
             text: 'Dev Dependencies',
-            route: 'dev-dependencies',
+            route: '/dependencies/dev',
             title: '',
           },
           {
@@ -72,16 +72,6 @@
             route: 'tasks',
             title: '',
           },
-//          {
-//            text: 'Webpack GUI',
-//            route: 'webpack-gui',
-//            title: '',
-//          },
-//          {
-//            text: 'Command Builder',
-//            route: 'command-builder',
-//            title: '',
-//          },
         ],
         currentProject: {
           name: 'npm-gui',

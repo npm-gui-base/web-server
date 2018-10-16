@@ -1,8 +1,8 @@
 import express from 'express';
-import searchController from './search.controller.js';
+import { search } from '../../actions/search/search';
 
 const searchRouter = express.Router();// eslint-disable-line
 
-searchRouter.post('/:repo', searchController.whenPost);
+searchRouter.post('/:repoName', search);
 
 export default searchRouter;

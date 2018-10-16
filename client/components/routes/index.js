@@ -1,24 +1,24 @@
 import NpmGuiDependencies from '../npm-gui-dependencies';
 
 export default [{
-  path: '/dependencies',
-  name: 'dependencies',
+  path: '/dependencies/regular',
+  name: 'dependencies-regular',
   component: NpmGuiDependencies,
   meta: {
-    api: 'dependencies',
+    api: 'dependencies/regular',
   },
 }, {
-  path: '/dev-dependencies',
-  name: 'dev-dependencies',
+  path: '/dependencies/dev',
+  name: 'dependencies-dev',
   component: NpmGuiDependencies,
   meta: {
-    api: 'dependencies-dev',
+    api: 'dependencies/dev',
   },
 }, {
-  path: '/global-dependencies',
-  name: 'global-dependencies',
+  path: '/dependencies/global',
+  name: 'dependencies-global',
   component: NpmGuiDependencies,
   meta: {
-    api: 'global',
+    api: 'dependencies/global',
   },
 }];

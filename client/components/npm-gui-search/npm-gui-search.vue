@@ -78,8 +78,8 @@
           <th>action</th>
         </tr>
         <tr v-for="result in searchResults">
-          <td>{{ result.score }}</td>
-          <td :title="result.description">{{ result.name }}</td>
+          <td>{{ (result.score * 100).toFixed(2) }}%</td>
+          <td :title="result.description"><strong>{{ result.name }}</strong></td>
           <td :title="result.description">{{ result.version }}</td>
           <td><a :href="result.url" target="_blank">show repo</a></td>
           <td>
@@ -122,11 +122,13 @@
         this.isOpen = !this.isOpen;
       },
 
-      onInstall(name) {
-        axios.put(`/api/${this.$root._route.meta.api}/${this.searchRepo}`, { // eslint-disable-line
-          key: name.split('@').length === 2 ? name.split('@')[0] : name,
-          value: name.split('@').length === 2 ? name.split('@')[1] : undefined,
-        });
+      onInstall(toInstall) {
+        const packageName = toInstall.includes('@') ? toInstall.split('@')[0] : toInstall;
+        const packageVersion = toInstall.includes('@') ? toInstall.split('@')[1] : null;
+        axios.post(
+          `/api/project/test-project/${this.$root._route.meta.api}/${this.searchRepo}`,
+          { packageName, packageVersion },
+        );
 
         this.searchQuery = '';
         this.isOpen = false;

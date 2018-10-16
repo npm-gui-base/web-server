@@ -1,5 +1,5 @@
 import Crawler from './crawler/crawler.routes';
-import Dependencies from './dependencies/dependencies.routes';
+// import Dependencies from './dependencies/dependencies.routes';
 import GlobalPackages from './globalPackages/globalPackages.routes';
 import DependenciesBin from './dependenciesBin/dependenciesBin.routes';
 import Project from './project/project.routes';
@@ -9,7 +9,7 @@ import Search from './search/search.routes';
 
 export default {
   Crawler,
-  Dependencies,
+  // Dependencies,
   GlobalPackages,
   DependenciesBin,
   Project,
