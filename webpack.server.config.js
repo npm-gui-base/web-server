@@ -3,7 +3,7 @@ const nodeExternals = require('webpack-node-externals'); // eslint-disable-line
 const EXCLUDE = /(node_modules|bower_components)/;
 
 module.exports = {
-  entry: './index-server.js',
+  entry: './server/index.js',
   output: {
     library: 'npmGuiServer',
     libraryTarget: 'umd',

@@ -66,7 +66,7 @@ async function checkVersionNPM(dependencies) {
   return dependencies;
 }
 
-async function updateDependenciesInfo(repo, isDev) {
+async function getDependenciesForRepo(repo, isDev) {
   const packageJson = ProjectService.getPackageJson(repo);
 
   const dependencies = isDev ?
@@ -88,27 +88,25 @@ async function updateDependenciesInfo(repo, isDev) {
   return dependencies;
 }
 
-async function updateRepo(repo) {
-  if (!ProjectService.isRepoAvailable(repo)) {
-    return;
-  }
+async function updateDependenciesDataForRepo(repoName) {
+  if (!ProjectService.isRepoAvailable(repoName)) { return; }
 
-  const dependencies = await updateDependenciesInfo(repo, false);
-  ProjectService.dependencies.all = ProjectService.dependencies.all.concat(dependencies);
+  const dependencies = await getDependenciesForRepo(repoName, false);
+  ProjectService.dependencies.all = [...ProjectService.dependencies.all, ...dependencies];
 
-  const devDependencies = await updateDependenciesInfo(repo, true);
-  ProjectService.devDependencies.all = ProjectService.devDependencies.all.concat(devDependencies);
+  const devDependencies = await getDependenciesForRepo(repoName, true);
+  ProjectService.devDependencies.all = [...ProjectService.devDependencies.all, ...devDependencies];
 }
 
-async function updateModulesInfo() {
+async function updateAllDependenciesData() {
   await ProjectService.checkReposAvailability();
   // repos availability completed
   // clear arrays
   ProjectService.dependencies.all = [];
   ProjectService.devDependencies.all = [];
   // update all repos
-  await updateRepo('npm');
-  await updateRepo('bower');
+  await updateDependenciesDataForRepo('npm');
+  await updateDependenciesDataForRepo('bower');
 
   ProjectService.dependencies.lastId = true;
   ProjectService.devDependencies.lastId = true;
@@ -117,16 +115,11 @@ async function updateModulesInfo() {
 // ///////////////////////////////////////////////////////////////////////////////
 
 export default {
-  get(isDev) {
-    return new Promise((resolve) => {
-      if (ProjectService.dependencies.lastId && ProjectService.devDependencies.lastId) {
-        resolve(isDev ? ProjectService.devDependencies.all : ProjectService.dependencies.all);
-      } else {
-        updateModulesInfo()
-          .then(() => {
-            resolve(isDev ? ProjectService.devDependencies.all : ProjectService.dependencies.all);
-          });
-      }
-    });
+  async get(isDev) {
+    if (!ProjectService.dependencies.lastId || !ProjectService.devDependencies.lastId) {
+      await updateAllDependenciesData();
+    }
+
+    return isDev ? ProjectService.devDependencies.all : ProjectService.dependencies.all;
   },
 };

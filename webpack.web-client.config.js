@@ -6,10 +6,10 @@ const EXCLUDE = /(node_modules|bower_components)/;
 
 module.exports = {
   entry: {
-    npmGuiWebClient: ['babel-polyfill', './index-web-client.js'],
+    npmGuiWebClient: ['babel-polyfill', './client/index.js'],
   },
   output: {
-    path: `${__dirname}/dist/web-client`,
+    path: `${__dirname}/dist/client`,
     filename: './[name].js',
   },
   watchOptions: {
@@ -75,7 +75,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'NPM-GUI',
-      template: 'web-client/index.template.html',
+      template: 'client/index.template.html',
       chunks: ['npmGuiWebClient'],
       hash: true,
       mobile: true,

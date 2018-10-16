@@ -70,7 +70,7 @@
     <header>
       <npm-gui-search></npm-gui-search>
       <div class="right">
-        <npm-gui-btn
+        <!-- <npm-gui-btn
           class="info small"
           icon="fork"
           title="Searches the local package tree and attempts to simplify the overall structure by moving dependencies further up the tree, where they can be more effectively shared by multiple dependent packages."
@@ -101,7 +101,7 @@
         <npm-gui-btn
           class="danger small"
         >All To Latest
-        </npm-gui-btn>
+        </npm-gui-btn> -->
         <npm-gui-btn
           class="danger small"
           icon="loop-circular"
@@ -133,14 +133,14 @@
           <td class="column-version">{{ dependency.latest }}</td>
           <td class="column-action">
             <npm-gui-btn icon="trash" class="danger" @click="onRemove(dependency)"></npm-gui-btn>
-            <npm-gui-btn icon="lock-locked" class="primary"></npm-gui-btn>
-            <npm-gui-btn icon="external-link" class="warning"></npm-gui-btn>
+            <!-- <npm-gui-btn icon="lock-locked" class="primary"></npm-gui-btn>
+            <npm-gui-btn icon="external-link" class="warning"></npm-gui-btn> -->
           </td>
         </tr>
       </table>
       <div v-show="loading" class="loading">loading...</div>
     </div>
-    <iframe src="http://www.forkcode.com/npm-gui/0.3.2.html"></iframe>
+    <iframe src="http://https://q-nick.github.io/npm-gui/"></iframe>
   </div>
 </template>
 

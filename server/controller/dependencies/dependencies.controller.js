@@ -38,12 +38,9 @@ export default {
       });
   },
 
-  whenGet(req, res) {
-    Service.Dependencies
-      .get(Service.Utils.isDevDependencies(req))
-      .then((dependencies) => {
-        res.json(dependencies);
-      });
+  async whenGet(req, res) {
+    const dependencies = await Service.Dependencies.get(Service.Utils.isDevDependencies(req));
+    res.json(dependencies);
   },
 
   whenGetReinstallAll(req, res) {

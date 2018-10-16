@@ -1,11 +1,11 @@
 import 'normalize.css';
 import Vue from 'vue/dist/vue.js';
 
-import './web-client/base.scss';
-import NpmGuiNav from './web-client/components/npm-gui-nav';
-import NpmGuiConsole from './web-client/components/npm-gui-console';
+import './base.scss';
+import NpmGuiNav from './components/npm-gui-nav';
+import NpmGuiConsole from './components/npm-gui-console';
 
-import router from './web-client/router';
+import router from './router';
 
 Vue.use(router.VueRouter);
 

@@ -2,8 +2,8 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 // import opn from 'opn';
-import NpmGuiCore from './server/core';
-import NpmGuiControllers from './server/controllers';
+import NpmGuiCore from './core';
+import NpmGuiControllers from './controllers';
 
 // Define a port/host we want to listen to
 const PORT = 1337;
