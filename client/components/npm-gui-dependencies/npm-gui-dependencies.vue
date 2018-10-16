@@ -107,24 +107,24 @@
       <table v-show="!loading">
         <tr>
           <th>Name</th>
-          <th>Version</th>
+          <th>Required</th>
           <th>NSP</th>
           <th>Installed</th>
           <th>Wanted</th>
           <th>Latest</th>
           <th>Action</th>
         </tr>
-        <tr v-for="dependency in dependencies">
+        <tr v-for="dependency in dependencies" v-bind:key="dependency.name">
           <td>
-            {{ dependency.key }}
+            {{ dependency.name }}
             <span class="label label--warning" v-if="dependency.repo === 'bower'">Bower</span>
             <span class="label label--danger" v-if="dependency.repo === 'npm'">npm</span>
           </td>
-          <td class="column-version">{{ dependency.value }}</td>
+          <td class="column-version">{{ dependency.required || '-' }}</td>
           <td class="column-nsp">-</td>
-          <td class="column-version">{{ dependency.version }}</td>
-          <td class="column-version">{{ dependency.wanted }}</td>
-          <td class="column-version">{{ dependency.latest }}</td>
+          <td class="column-version">{{ dependency.installed || '-'}}</td>
+          <td class="column-version">{{ dependency.wanted || '-' }}</td>
+          <td class="column-version">{{ dependency.latest || '-' }}</td>
           <td class="column-action">
             <npm-gui-btn icon="trash" class="danger" @click="onRemove(dependency)"></npm-gui-btn>
             <!-- <npm-gui-btn icon="lock-locked" class="primary"></npm-gui-btn>
