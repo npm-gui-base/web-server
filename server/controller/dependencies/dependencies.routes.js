@@ -1,9 +1,10 @@
 import express from 'express';
 import dependenciesController from './dependencies.controller.js';
+import { getRegularDependencies } from '../../actions/dependencies/getRegularDependencies';
 
-const dependenciesRouter = express.Router(); // eslint-disable-line
+const dependenciesRouter = express.Router({ mergeParams: true }); // eslint-disable-line
 
-dependenciesRouter.get('/', dependenciesController.whenGet);
+dependenciesRouter.get('/', getRegularDependencies);
 dependenciesRouter.put('/:repo/', dependenciesController.whenPut);
 dependenciesRouter.delete('/:repo/:name', dependenciesController.whenDelete);
 // install

@@ -1,68 +1,45 @@
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../variables.scss";
-
-  $hover-darken: 7%;
-  $padding: 10px;
-
-  @mixin button($name, $color) {
-    &.#{$name} {
-      background-color: $color;
-
-      &:hover {
-        background-color: darken($color, $hover-darken);
-      }
-
-      &:active {
-        background-color: darken($color, $hover-darken * 2);
-      }
-
-      &:disabled {
-        background-color: lighten($color, $hover-darken * 2);
-      }
-    }
-  }
-
-  button {
+<style scoped rel="stylesheet/css">
+  .button {
     border: 0;
-    border-radius: $npm-gui-radius;
-    color: $npm-gui-color-light;
+    border-radius: 2px;
+    color: #fff;
     font-family: inherit;
     font-size: 11px;
     font-weight: 500;
     outline: none;
-    padding: $padding;
+    padding: 10px;
     text-transform: uppercase;
     transition: background-color 200ms;
+  }
 
-    @include button('primary', $npm-gui-color-primary);
-    @include button('dark', $npm-gui-color-dark);
-    @include button('warning', $npm-gui-color-warning);
-    @include button('danger', $npm-gui-color-danger);
-    @include button('success', $npm-gui-color-success);
-    @include button('info', $npm-gui-color-info);
+  .button:first-child { margin-left: 0; }
+  .button:last-child { margin-right: 0; }
 
-    &.small {
-      font-size: 9.5px;
-      padding: $padding * .6;
-    }
+  .button:hover { filter: brightness(90%); }
+  .button:active { filter: brightness(80%); }
+  .button:disabled { cursor: disabled; filter: grayscale(100%); }
 
-    &:first-child {
-      margin-left: 0;
-    }
+  .primary { background-color: #325d88; }
+  .dark { background-color: #3e3f3a; }
+  .warning { background-color: #ef5c0e; }
+  .danger { background-color: #d9534f; }
+  .success { background-color: #79a736; }
+  .info { background-color: #1b8dbb; }
 
-    &:last-child {
-      margin-right: 0;
-    }
+  .small {
+    font-size: 9.5px;
+    padding: 6px;
+  }
 
-    .oi {
-      font-size: inherit;
-      margin-right: 3px;
-    }
+  .oi {
+    font-size: inherit;
+    margin-right: 3px;
   }
 </style>
 
 <template>
   <button
+    class="button"
     v-on:click="onClick"
     type="button"
   >

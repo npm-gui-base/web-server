@@ -1,22 +1,20 @@
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../variables.scss";
-
+<style scoped rel="stylesheet/css">
   .dependencies {
-    @include flexbox();
-    @include flex-direction(column);
-    @include flex();
+    display: flex;
+    flex: 1;
+    flex-direction:column;
 
     position: relative;
   }
 
   .table-container {
-    border: 1px solid $npm-gui-color-gray;
-    border-radius: $npm-gui-radius;
-    margin-bottom: $npm-gui-gutter / 2;
-    margin-top: $npm-gui-gutter / 2;
+    border: 1px solid #dfd7ca;
+    border-radius: 2px;
+    margin-bottom: 15px;
+    margin-top: 15px;
     overflow: auto;
 
-    @include flex();
+    flex: 1;
   }
 
   iframe {
@@ -29,20 +27,18 @@
   }
 
   .label {
-    border-radius: $npm-gui-radius;
-    color: $npm-gui-color-light;
+    border-radius: 2px;
+    color: #fff;
     float: right;
     font-size: .8em;
     font-weight: bold;
     padding: .2em .4em;
-
-    &--danger {
-      background: $npm-gui-color-danger;
-    }
-
-    &--warning {
-      background: $npm-gui-color-warning;
-    }
+  }
+  .label--danger {
+    background: #d9534f;
+  }
+  .label--warning {
+    background: #ef5c0e;
   }
 
   .loading {
@@ -50,18 +46,16 @@
     text-align: center;
   }
 
-  .column {
-    &-action {
-      width: 11em;
-    }
+  .column-action {
+    width: 11em;
+  }
 
-    &-nsp {
-      width: 8em;
-    }
+  .column-nsp {
+    width: 8em;
+  }
 
-    &-version {
-      width: 10%;
-    }
+  .column-version {
+    width: 10%;
   }
 </style>
 
@@ -176,7 +170,7 @@
       loadDependencies() {
         this.loading = true;
         axios
-          .get(`/api/${this.$root._route.meta.api}`) // eslint-disable-line
+          .get(`/api/project/test-project/${this.$root._route.meta.api}`) // eslint-disable-line
           .then((response) => {
             this.loading = false;
             this.error = null;

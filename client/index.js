@@ -1,7 +1,8 @@
 import 'normalize.css';
-import Vue from 'vue/dist/vue.js';
+import Vue from 'vue';
 
-import './base.scss';
+import './open-iconic.css';
+import './base.css';
 import NpmGuiNav from './components/npm-gui-nav';
 import NpmGuiConsole from './components/npm-gui-console';
 
@@ -10,7 +11,7 @@ import router from './router';
 Vue.use(router.VueRouter);
 
 function initialize() {
-  const app = new Vue({ // eslint-disable-line
+  const app = new Vue({
     el: '#npm-gui-vue',
     components: {
       NpmGuiNav,
@@ -24,7 +25,7 @@ function initialize() {
 
 initialize();
 
-export default {
-  initialize,
-  Vue,
-};
+// export default {
+//   initialize,
+//   Vue,
+// };

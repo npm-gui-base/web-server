@@ -1,24 +1,19 @@
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../variables";
-
-  $height: 45px;
-
+<style scoped rel="stylesheet/css">
   h1 {
-    color: $npm-gui-color-light;
+    color: #fff;
     display: inline-block;
     font-size: 1em;
     font-weight: 400;
-    line-height: $height;
-    margin: 0 ($npm-gui-gutter / 2) 0 0;
+    line-height: 45px;
+    margin: 0 15px 0 0;
   }
 
   nav {
-    background: $npm-gui-color-dark;
-    height: $height;
-    padding-left: $npm-gui-gutter / 2;
-    padding-right: $npm-gui-gutter / 2;
-
-    @include flex-basis($height);
+    background: #3e3f3a;
+    height: 45px;
+    padding-left: 15px;
+    padding-right: 15px;
+    flex-basis: 45px;
   }
 
   .right-section {
@@ -26,11 +21,11 @@
   }
 
   p {
-    color: $npm-gui-color-gray;
+    color: #dfd7ca;
     display: inline-block;
     font-size: .9em;
     font-weight: 400;
-    line-height: $height;
+    line-height: 45px;
     margin: 0;
   }
 </style>

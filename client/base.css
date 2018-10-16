@@ -1,6 +1,3 @@
-@import './open-iconic';
-@import './variables';
-
 body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -17,37 +14,37 @@ body {
 }
 
 #npm-gui-vue {
-  @include flexbox;
-  @include flex-direction(column);
-  @include flex;
+  display: flex;
+  flex-direction:column;
+  flex: 1;
 
   height: 100%;
 }
 
 .row {
-  @include flexbox;
-  @include flex;
+  flex: 1;
+  display: flex;
 }
 
 .left-column {
-  @include flexbox;
-  @include flex-basis(20%);
+  flex-basis: 20%;
+  display: flex;
 
-  padding: $npm-gui-gutter / 2;
+  padding: 15px;
 }
 
 .right-column {
-  @include flexbox;
-  @include flex;
+  display: flex;
+  flex: 1;
 
-  padding: $npm-gui-gutter / 2;
+  padding: 15px;
 }
 
 input,
 select {
-  background: $npm-gui-color-light;
-  border: 1px solid $npm-gui-color-gray;
-  border-radius: $npm-gui-radius;
+  background: #fff;
+  border: 1px solid #dfd7ca;
+  border-radius: 2px;
   display: block;
   font-size: 11px;
   height: 30px;
@@ -57,18 +54,18 @@ select {
 
 table {
   border-collapse: collapse;
-  color: $npm-gui-color-dark-deep;
+  color: #393a35;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
   font-size: .8em;
   width: 100%;
 
   tr:hover {
-    background: $npm-gui-color-gray-light;
+    background: #f8f5f0;
   }
 
   td,
   th {
-    border-bottom: 1px solid $npm-gui-color-gray;
+    border-bottom: 1px solid #dfd7ca;
     padding: .5em;
     text-align: left;
 

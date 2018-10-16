@@ -1,42 +1,39 @@
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../variables.scss";
-
+<style scoped rel="stylesheet/css">
   .console {
-    @include flexbox();
-    @include flex-direction(column);
-    @include flex();
+    display: flex;
+    flex-direction:column;
+    flex: 1;
+    position: relative;
   }
 
   pre {
-    border: 1px solid $npm-gui-color-gray;
-    border-radius: $npm-gui-radius;
-    color: $npm-gui-color-gray-deep;
+    border: 1px solid #dfd7ca;
+    border-radius: 2px;
+    color: #8e8c84;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     font-size: .8em;
     margin-bottom: 0;
-    margin-top: $npm-gui-gutter / 2;
+    margin-top: 15px;
     overflow: auto;
-    padding: $npm-gui-gutter / 4;
+    padding: 7px;
     position: relative;
     word-break: break-all;
     word-wrap: break-word;
 
-    @include flex();
-
-    p {
-      bottom: $npm-gui-gutter / 4;
-      left: $npm-gui-gutter / 4;
-      position: absolute;
-      right: $npm-gui-gutter / 4;
-      top: $npm-gui-gutter / 4;
-    }
+    flex: 1;
   }
 
-  header {
-    p {
-      display: inline-block;
-      margin: 0;
-    }
+  p {
+    bottom: 7px;
+    left: 7px;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+  }
+
+  header p {
+    display: inline-block;
+    margin: 0;
   }
 
   .right {

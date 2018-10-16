@@ -1,10 +1,8 @@
-<style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../variables";
-
+<style scoped rel="stylesheet/css">
   .npm-gui-search {
-    background: $npm-gui-color-light;
-    border: 1px solid $npm-gui-color-light;
-    border-radius: $npm-gui-radius;
+    background: #fff;
+    border: 1px solid #fff;
+    border-radius: 2px;
     margin-left: -7.5px;
     margin-top: -7.5px;
     max-height: 32px;
@@ -13,13 +11,13 @@
     padding: 7.5px;
     position: absolute;
     transition: max-width 300ms, max-height 300ms;
+  }
 
-    &--open {
-      border-color: $npm-gui-color-gray;
+  .npm-gui-search--open {
+      border-color: #dfd7ca;
       max-height: 100%;
       max-width: 100%;
     }
-  }
 
   form {
     margin-bottom: 6px;

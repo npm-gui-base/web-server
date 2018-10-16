@@ -5,20 +5,6 @@ import DedupeService from './dependencies.dedupe.service.js';
 import PruneService from './dependencies.prune.service.js';
 import DependenciesService from './dependencies.service.js';
 
-
-// ///////////////////
-// export default function ModuleService() {
-//   this.modules = {
-//     lastId: null,
-//     all: {},
-//   };
-
-//   this.devModules = {
-//     lastId: null,
-//     all: {},
-//   };
-// }
-
 export default {
   get: DependenciesService.get,
   reinstallAllDependencies: ReinstallService.reinstallAllDependencies,
