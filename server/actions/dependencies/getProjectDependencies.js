@@ -69,9 +69,16 @@ async function getDevBowerDependencies(req) {
 export async function getRegularDependencies(req, res) {
   const npmCacheName = `${req.params.projectPath}-npmRegular`;
   const bowerCacheName = `${req.params.projectPath}-bowerRegular`;
+  let npmDependencies = [];
+  let bowerDependencies = [];
 
-  const npmDependencies = getFromCache(npmCacheName) || await getRegularNpmDependencies(req);
-  const bowerDependencies = getFromCache(bowerCacheName) || await getRegularBowerDependencies(req);
+  try {
+    npmDependencies = getFromCache(npmCacheName) || await getRegularNpmDependencies(req);
+  } catch (e) { console.error(e); }
+
+  try {
+    bowerDependencies = getFromCache(bowerCacheName) || await getRegularBowerDependencies(req);
+  } catch (e) { console.error(e); /* TODO throw error to frontend - bower error */ }
 
   putToCache(npmCacheName, npmDependencies);
   putToCache(bowerCacheName, bowerDependencies);
@@ -82,9 +89,16 @@ export async function getRegularDependencies(req, res) {
 export async function getDevDependencies(req, res) {
   const npmCacheName = `${req.params.projectPath}-npmDev`;
   const bowerCacheName = `${req.params.projectPath}-bowerDev`;
+  let npmDevDependencies = [];
+  let bowerDevDependencies = [];
 
-  const npmDevDependencies = getFromCache(npmCacheName) || await getDevNpmDependencies(req);
-  const bowerDevDependencies = getFromCache(bowerCacheName) || await getDevBowerDependencies(req);
+  try {
+    npmDevDependencies = getFromCache(npmCacheName) || await getDevNpmDependencies(req);
+  } catch (e) { console.error(e); }
+
+  try {
+    bowerDevDependencies = getFromCache(bowerCacheName) || await getDevBowerDependencies(req);
+  } catch (e) { console.error(e); }
 
   putToCache(npmCacheName, npmDevDependencies);
   putToCache(bowerCacheName, bowerDevDependencies);

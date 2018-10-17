@@ -1,7 +1,7 @@
 import 'normalize.css';
 import Vue from 'vue';
+import 'open-iconic';
 
-import './open-iconic.css';
 import './base.css';
 import NpmGuiNav from './components/npm-gui-nav';
 import NpmGuiConsole from './components/npm-gui-console';

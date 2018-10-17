@@ -17,6 +17,19 @@
     flex: 1;
   }
 
+  td {
+    padding: 3px 10px;
+    text-align: center;
+  }
+
+  td:first-child {
+    text-align: left;
+  }
+
+  tr:hover td {
+    background: #dfd7ca;
+  }
+
   iframe {
     border: 0;
     height: 50px;
@@ -123,10 +136,16 @@
           <td class="column-version">{{ dependency.required || '-' }}</td>
           <td class="column-nsp">-</td>
           <td class="column-version">{{ dependency.installed || '-'}}</td>
-          <td class="column-version">{{ dependency.wanted || '-' }}</td>
-          <td class="column-version">{{ dependency.latest || '-' }}</td>
+          <td class="column-version">
+            <npm-bui-btn icon="check" v-if="dependency.wanted" class="success small" @click="onInstall(dependency)">{{dependency.wanted}}</npm-bui-btn>
+            <span v-if="!dependency.wanted">-</span>
+          </td>
+          <td class="column-version">
+            <npm-gui-btn icon="check" v-if="dependency.latest" class="success small" @click="onInstall(dependency)">{{dependency.latest}}</npm-gui-btn>
+            <span v-if="!dependency.latest">-</span>
+          </td>
           <td class="column-action">
-            <npm-gui-btn icon="trash" class="danger" @click="onRemove(dependency)"></npm-gui-btn>
+            <npm-gui-btn icon="trash" class="danger small" @click="onRemove(dependency)"></npm-gui-btn>
             <!-- <npm-gui-btn icon="lock-locked" class="primary"></npm-gui-btn>
             <npm-gui-btn icon="external-link" class="warning"></npm-gui-btn> -->
           </td>
@@ -184,7 +203,7 @@
 
       onRemove(dependency) {
         axios
-          .delete(`/api/${this.$root._route.meta.api}/${dependency.repo}/${dependency.key}`) // eslint-disable-line
+          .delete(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}/${dependency.name}`) // eslint-disable-line
           .then(() => {
             this.loadDependencies();
           });

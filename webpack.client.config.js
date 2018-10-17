@@ -45,6 +45,7 @@ module.exports = {
     modules: ['node_modules'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
+      'open-iconic$': 'open-iconic/font/css/open-iconic.css',
     },
   },
   plugins: [

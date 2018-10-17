@@ -13,3 +13,11 @@ export function pushToCache(name, data) {
     cache[name].push(data);
   }
 }
+
+export function spliceFromCache(name, compareFunction) {
+  if (cache[name]) {
+    const indexToSplice = cache[name].findIndex(compareFunction);
+    cache[name].splice(indexToSplice, 1);
+  }
+}
+
