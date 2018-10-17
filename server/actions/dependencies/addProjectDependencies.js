@@ -3,16 +3,15 @@ import fs from 'fs';
 import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
 import { pushToCache } from '../../cache';
-import { mapNpmDependency, mapBowerDependency } from './mapDependencies';
+import { mapNpmDependency, mapBowerDependency } from '../mapDependencies';
 
 
 async function addRegularNpmDependency(req) {
-  const projectPath = req.params.projectPath;
-  const packageName = req.body.packageName;
+  const { projectPath } = req.params;
+  const { packageName } = req.body;
 
   // add
-  await executeCommand(projectPath,
-      `npm install ${packageName}@${req.body.packageVersion || ''} -S`);
+  await executeCommand(projectPath, `npm install ${packageName}@${req.body.packageVersion || ''} -S`, true);
 
   // get package info
   const commandLsResult = await executeCommand(
@@ -23,8 +22,7 @@ async function addRegularNpmDependency(req) {
     req.params.projectPath, `npm outdated ${packageName} --json`);
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout) || { versions: [] };
 
-  const packageJson =
-    UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
 
   return mapNpmDependency(
     packageName,
@@ -39,12 +37,11 @@ async function addRegularBowerDependency(req) {
 }
 
 async function addDevNpmDependency(req) {
-  const projectPath = req.params.projectPath;
-  const packageName = req.body.packageName;
+  const { projectPath } = req.params;
+  const { packageName } = req.body;
 
   // add
-  await executeCommand(projectPath,
-      `npm install ${packageName}@${req.body.packageVersion || ''} -D`);
+  await executeCommand(projectPath, `npm install ${packageName}@${req.body.packageVersion || ''} -D`, true);
 
   // get package info
   const commandLsResult = await executeCommand(
@@ -55,8 +52,7 @@ async function addDevNpmDependency(req) {
     req.params.projectPath, `npm outdated ${packageName} --json`);
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout) || { versions: [] };
 
-  const packageJson =
-    UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
 
   return mapNpmDependency(
     packageName,

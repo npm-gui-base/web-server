@@ -3,20 +3,17 @@ import fs from 'fs';
 import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
 import { getFromCache, putToCache } from '../../cache';
-import { mapNpmDependency, mapBowerDependency } from './mapDependencies';
+import { mapNpmDependency, mapBowerDependency } from '../mapDependencies';
 
 
 async function getRegularNpmDependencies(req) {
-  const commandLsResult = await executeCommand(
-    req.params.projectPath, 'npm ls --depth=0 --json -prod');
+  const commandLsResult = await executeCommand(req.params.projectPath, 'npm ls --depth=0 --json -prod');
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
-  const commandOutdtedResult = await executeCommand(
-    req.params.projectPath, 'npm outdated --json -prod');
+  const commandOutdtedResult = await executeCommand(req.params.projectPath, 'npm outdated --json -prod');
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout);
 
-  const packageJson =
-    JSON.parse(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = JSON.parse(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
 
   return Object.keys(dependencies)
     .map(name => mapNpmDependency(
@@ -28,16 +25,13 @@ async function getRegularNpmDependencies(req) {
 }
 
 async function getDevNpmDependencies(req) {
-  const commandLsResult = await executeCommand(
-    req.params.projectPath, 'npm ls --depth=0 --json -dev');
+  const commandLsResult = await executeCommand(req.params.projectPath, 'npm ls --depth=0 --json -dev');
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
-  const commandOutdtedResult = await executeCommand(
-    req.params.projectPath, 'npm outdated --json -dev');
+  const commandOutdtedResult = await executeCommand(req.params.projectPath, 'npm outdated --json -dev');
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout);
 
-  const packageJson =
-    JSON.parse(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = JSON.parse(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
 
   return Object.keys(dependencies)
     .map(name => mapNpmDependency(

@@ -27,7 +27,7 @@ body {
 }
 
 .left-column {
-  flex-basis: 20%;
+  flex-basis: 30%;
   display: flex;
 
   padding: 15px;

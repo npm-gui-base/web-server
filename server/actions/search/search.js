@@ -11,7 +11,7 @@ function requestWithPromise(url) {
 async function searchBower(query) {
   const results = await requestWithPromise(`https://libraries.io/api/bower-search?q=${query}`);
 
-  return results.map((result) => ({
+  return results.map(result => ({
     name: result.name,
     version: result.latest_release_number,
     score: result.stars,
@@ -21,10 +21,9 @@ async function searchBower(query) {
 }
 
 async function searchNPM(query) {
-  const { results } =
-    await requestWithPromise(`https://api.npms.io/v2/search?from=0&size=25&q=${query}`);
+  const { results } = await requestWithPromise(`https://api.npms.io/v2/search?from=0&size=25&q=${query}`);
 
-  return results.map((result) => ({
+  return results.map(result => ({
     name: result.package.name,
     version: result.package.version,
     score: result.score.final,

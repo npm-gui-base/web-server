@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import NpmGuiBtn from '../npm-gui-btn';
+  import NpmGuiBtn from './npm-gui-btn.vue';
 
   export default {
     components: {

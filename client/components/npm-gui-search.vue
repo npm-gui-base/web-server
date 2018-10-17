@@ -102,9 +102,7 @@
 <script>
   import axios from 'axios';
   import debounce from 'debounce';
-  import NpmGuiBtn from '../npm-gui-btn';
-
-  // import NpmGuiSearchService from './npm-gui-search.service';
+  import NpmGuiBtn from './npm-gui-btn.vue';
 
   export default {
     components: {

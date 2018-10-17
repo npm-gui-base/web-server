@@ -24,10 +24,8 @@
   }
 
   p {
-    bottom: 7px;
     left: 7px;
     position: absolute;
-    right: 7px;
     top: 7px;
   }
 
@@ -59,17 +57,14 @@
 </template>
 
 <script>
-  import NpmGuiBtn from '../npm-gui-btn';
+  import NpmGuiBtn from './npm-gui-btn.vue';
 
   export default {
     components: {
       NpmGuiBtn,
     },
     created() {
-      const consoleSocket = new WebSocket(`ws://${location.host}/api/console`);// eslint-disable-line
-      consoleSocket.onmessage = (msg) => {
-        this.log += msg.data;
-      };
+      this.connectConsole();
     },
     data() {
       return {
@@ -80,6 +75,15 @@
       clear() {
         this.log = '';
       },
+      connectConsole() {
+        const consoleSocket = new WebSocket(`ws://${location.host}/api/console`);// eslint-disable-line
+        consoleSocket.onmessage = (msg) => {
+          this.log += msg.data;
+        };
+        consoleSocket.onclose = (msg) => {
+          setTimeout(() => this.connectConsole(), 1000);
+        };
+      }
     },
   };
 </script>

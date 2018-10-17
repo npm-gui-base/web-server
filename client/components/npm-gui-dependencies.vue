@@ -180,8 +180,8 @@
 <script>
   import axios from 'axios';
 
-  import NpmGuiBtn from '../npm-gui-btn';
-  import NpmGuiSearch from '../npm-gui-search';
+  import NpmGuiBtn from './npm-gui-btn.vue';
+  import NpmGuiSearch from './npm-gui-search.vue';
 
   export default {
     components: {

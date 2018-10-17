@@ -9,6 +9,10 @@ module.exports = {
   plugins: [
     'html'
   ],
+  rules: {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "import/prefer-default-export": "warning"
+  },
   // check if imports actually resolve
   settings: {
     'import/resolver': {
@@ -17,19 +21,4 @@ module.exports = {
       }
     }
   },
-  globals: {
-    describe: true,
-    xdescribe: true,
-    fdescribe: true,
-    it: true,
-    xit: true,
-    fit: true,
-    before: true,
-    beforeEach: true,
-  }
-  // add your custom rules here
-  // rules: {
-  //   // allow debugger during development
-  //   'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
-  // }
 }

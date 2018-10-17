@@ -1,16 +1,12 @@
-import fs from 'fs';
-
 import executeCommand from '../executeCommand';
-import UtilsService from '../../service/utils/utils.service';
 import { spliceFromCache } from '../../cache';
 
 async function deleteRegularNpmDependency(req) {
-  const projectPath = req.params.projectPath;
-  const packageName = req.params.packageName;
+  const { projectPath } = req.params;
+  const { packageName } = req.body;
 
   // delete
-  await executeCommand(projectPath,
-      `npm uninstall ${packageName}@${req.body.packageVersion || ''} -S`);
+  await executeCommand(projectPath, `npm uninstall ${packageName}@${req.body.packageVersion || ''} -S`, true);
 
   return packageName;
 }
@@ -20,12 +16,11 @@ async function deleteRegularBowerDependency(req) {
 }
 
 async function deleteDevNpmDependency(req) {
-  const projectPath = req.params.projectPath;
-  const packageName = req.params.packageName;
+  const { projectPath } = req.params;
+  const { packageName } = req.body;
 
   // delete
-  await executeCommand(projectPath,
-      `npm uninstall ${packageName}@${req.body.packageVersion || ''} -D`);
+  await executeCommand(projectPath, `npm uninstall ${packageName}@${req.body.packageVersion || ''} -D`, true);
 
   return packageName;
 }
@@ -40,10 +35,10 @@ export async function deleteRegularDependencies(req, res) {
 
   if (req.params.repoName === 'npm') {
     const dependencyName = await deleteRegularNpmDependency(req);
-    spliceFromCache(npmCacheName, (dependency) => dependency.name === dependencyName);
+    spliceFromCache(npmCacheName, dependency => dependency.name === dependencyName);
   } else if (req.params.repoName === 'bower') {
     const dependencyName = await deleteRegularBowerDependency(req);
-    spliceFromCache(bowerCacheName, (dependency) => dependency.name === dependencyName);
+    spliceFromCache(bowerCacheName, dependency => dependency.name === dependencyName);
   }
 
   res.json({});
@@ -55,10 +50,10 @@ export async function deleteDevDependencies(req, res) {
 
   if (req.params.repoName === 'npm') {
     const dependencyName = await deleteDevNpmDependency(req);
-    spliceFromCache(npmCacheName, (dependency) => dependency.name === dependencyName);
+    spliceFromCache(npmCacheName, dependency => dependency.name === dependencyName);
   } else if (req.params.repoName === 'bower') {
     const dependencyName = await deleteDevBowerDependency(req);
-    spliceFromCache(bowerCacheName, (dependency) => dependency.name === dependencyName);
+    spliceFromCache(bowerCacheName, dependency => dependency.name === dependencyName);
   }
 
   res.json({});

@@ -1,23 +1,27 @@
 import spawn from 'cross-spawn';
+import Console from '../console';
 
-export default function executeCommand(cwd, wholeCommand) {
+export default function executeCommand(cwd, wholeCommand, pushToConsole) {
   return new Promise((resolve, reject) => {
     // spawn process
     const args = wholeCommand.split(' ');
     const command = args.shift();
     const spawned = spawn(command, args, { cwd });
+    if (pushToConsole) { Console.send(`executing: "${wholeCommand}" in "${cwd}"\n`); }
 
     // wait for stdout, stderr
     let stdout = '';
     spawned.stdout.on('data', (data) => {
       stdout += data.toString();
       // send part data through socket if required
+      if (pushToConsole) { Console.send(data.toString()); }
     });
 
     let stderr = '';
     spawned.stderr.on('data', (data) => {
-      stderr += data;
+      stderr += data.toString();
       // TODO send as stderr and show red color
+      if (pushToConsole) { Console.send(data.toString()); }
     });
 
     // wait for finish and resolve
