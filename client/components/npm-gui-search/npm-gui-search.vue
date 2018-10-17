@@ -34,6 +34,10 @@
     max-height: 50vh;
     overflow-y: scroll;
   }
+
+  td {
+    text-align: center;
+  }
 </style>
 
 <template>

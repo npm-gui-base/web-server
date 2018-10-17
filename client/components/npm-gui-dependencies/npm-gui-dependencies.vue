@@ -70,6 +70,24 @@
   .column-version {
     width: 10%;
   }
+
+  tr.loading {
+    background: linear-gradient(-45deg, #dfd7ca, #fff);
+    background-size: 200% 200%;
+  	animation: Gradient 2s ease infinite;
+  }
+
+  @keyframes Gradient {
+    0% {
+      background-position: 0% 50%
+    }
+    50% {
+      background-position: 100% 50%
+    }
+    100% {
+      background-position: 0% 50%
+    }
+  }
 </style>
 
 <template>
@@ -100,19 +118,21 @@
           icon="lock-unlocked"
           disabled
         >Unlock All
-        </npm-gui-btn>
-        <npm-gui-btn
-          class="danger small"
-        >All To Target
-        </npm-gui-btn>
-        <npm-gui-btn
-          class="danger small"
-        >All To Latest
         </npm-gui-btn> -->
+        <npm-gui-btn
+          class="success small"
+          icon="cloud-download"
+        >Update all To Wanted
+        </npm-gui-btn>
+        <npm-gui-btn
+          class="success small"
+          icon="cloud-download"
+        >Update all To Latest
+        </npm-gui-btn>
         <npm-gui-btn
           class="danger small"
           icon="loop-circular"
-        >Re/Install All
+        >Re/Install all
         </npm-gui-btn>
       </div>
     </header>
@@ -127,9 +147,9 @@
           <th>Latest</th>
           <th>Action</th>
         </tr>
-        <tr v-for="dependency in dependencies" v-bind:key="dependency.name">
+        <tr v-for="dependency in dependencies" v-bind:key="dependency.name" v-bind:class="{ loading: dependenciesLoading[dependency.name] }">
           <td>
-            {{ dependency.name }}
+            {{ dependency.name }}{{ dependency.loading }}
             <span class="label label--warning" v-if="dependency.repo === 'bower'">Bower</span>
             <span class="label label--danger" v-if="dependency.repo === 'npm'">npm</span>
           </td>
@@ -137,11 +157,11 @@
           <td class="column-nsp">-</td>
           <td class="column-version">{{ dependency.installed || '-'}}</td>
           <td class="column-version">
-            <npm-bui-btn icon="check" v-if="dependency.wanted" class="success small" @click="onInstall(dependency)">{{dependency.wanted}}</npm-bui-btn>
+            <npm-bui-btn icon="cloud-download" v-if="dependency.wanted" class="success small" @click="onInstall(dependency)">{{dependency.wanted}}</npm-bui-btn>
             <span v-if="!dependency.wanted">-</span>
           </td>
           <td class="column-version">
-            <npm-gui-btn icon="check" v-if="dependency.latest" class="success small" @click="onInstall(dependency)">{{dependency.latest}}</npm-gui-btn>
+            <npm-gui-btn icon="cloud-download" v-if="dependency.latest" class="success small" @click="onInstall(dependency)">{{dependency.latest}}</npm-gui-btn>
             <span v-if="!dependency.latest">-</span>
           </td>
           <td class="column-action">
@@ -173,6 +193,7 @@
         loading: false,
         error: null,
         dependencies: {},
+        dependenciesLoading: {},
       };
     },
     created() {
@@ -202,6 +223,11 @@
       },
 
       onRemove(dependency) {
+        this.dependenciesLoading = {
+          ...this.dependenciesLoading,
+          [dependency.name]: true,
+        };
+
         axios
           .delete(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}/${dependency.name}`) // eslint-disable-line
           .then(() => {
