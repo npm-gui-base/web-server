@@ -13,6 +13,10 @@ module.exports = {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "import/prefer-default-export": "warning"
   },
+  env: {
+    node: true,
+    mocha: true
+  },
   // check if imports actually resolve
   settings: {
     'import/resolver': {

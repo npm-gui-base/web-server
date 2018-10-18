@@ -12,7 +12,7 @@ const PORT = 1337;
 const HOST = '0.0.0.0';
 
 
-const app = express();
+export const app = express();
 
 // middleware
 app.use(bodyParser.json());
