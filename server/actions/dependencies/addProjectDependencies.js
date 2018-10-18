@@ -3,32 +3,30 @@ import fs from 'fs';
 import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
 import { updateInCache } from '../../cache';
-import { mapNpmDependency, mapBowerDependency } from './mapDependencies';
+import { mapNpmDependency } from '../mapDependencies';
 
 
 async function addRegularNpmDependency(req) {
   const { projectPath } = req.params;
-  const { packageName } = req.body;
+  const { name, version } = req.body;
 
   // add
-  await executeCommand(projectPath, `npm install ${packageName}@${req.body.packageVersion || ''} -S`, true);
+  await executeCommand(projectPath, `npm install ${name}@${version || ''} -S`, true);
 
   // get package info
-  const commandLsResult = await executeCommand(
-    req.params.projectPath, `npm ls ${packageName} --depth=0 --json`);
+  const commandLsResult = await executeCommand(req.params.projectPath, `npm ls ${name} --depth=0 --json`);
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
-  const commandOutdtedResult = await executeCommand(
-    req.params.projectPath, `npm outdated ${packageName} --json`);
+  const commandOutdtedResult = await executeCommand(req.params.projectPath, `npm outdated ${name} --json`);
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout) || { versions: [] };
 
   const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
 
   return mapNpmDependency(
-    packageName,
-    dependencies[packageName],
-    versions[packageName],
-    packageJson.dependencies[packageName],
+    name,
+    dependencies[name],
+    versions[name],
+    packageJson.dependencies[name],
   );
 }
 

@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>NPM Graphic User Interface</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 </head>
+
 <body>
-<div id="npm-gui-vue">
-  <npm-gui-nav></npm-gui-nav>
-  <div class="row">
-    <div class="left-column">
-      <npm-gui-console></npm-gui-console>
-    </div>
-    <div class="right-column">
-      <transition name="fade"  mode="out-in">
-        <keep-alive>
-          <router-view></router-view>
-        </keep-alive>
-      </transition>
+  <div id="npm-gui-vue">
+    <npm-gui-nav></npm-gui-nav>
+    <div class="row">
+      <div class="left-column">
+        <npm-gui-console></npm-gui-console>
+      </div>
+      <div class="right-column">
+        <transition name="fade" mode="out-in">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Default Statcounter code for NPM-GUI * -->
+  <script type="text/javascript">
+    var sc_project = 11852397;
+    var sc_invisible = 1;
+    var sc_security = "76e3ee56";
+    var sc_https = 1;
+    var sc_remove_link = 1;
+  </script>
+  <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+  <noscript>
+    <div class="statcounter"><img class="statcounter" src="//c.statcounter.com/11852397/0/76e3ee56/1/" alt="Web
+  Analytics"></div>
+  </noscript>
+  <!-- End of Statcounter Code -->
 </body>

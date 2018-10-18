@@ -125,11 +125,11 @@
       },
 
       onInstall(toInstall) {
-        const packageName = toInstall.includes('@') ? toInstall.split('@')[0] : toInstall;
-        const packageVersion = toInstall.includes('@') ? toInstall.split('@')[1] : null;
+        const name = toInstall.includes('@') ? toInstall.split('@')[0] : toInstall;
+        const version = toInstall.includes('@') ? toInstall.split('@')[1] : null;
         axios.post(
           `/api/project/test-project/${this.$root._route.meta.api}/${this.searchRepo}`,
-          { packageName, packageVersion },
+          { name, version },
         );
 
         this.searchQuery = '';

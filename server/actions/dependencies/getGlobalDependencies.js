@@ -1,15 +1,34 @@
 import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
+import { mapNpmDependency } from '../mapDependencies';
+import { getFromCache, putToCache } from '../../cache';
 
-export async function getGlobalDependencies(req, res) {
+export async function getGlobalNpmDependencies() {
   const commandResult = await executeCommand(null, 'npm ls -g --depth=0 --json');
   const { dependencies } = UtilsService.parseJSON(commandResult.stdout);
 
-  const npmDependencies = Object.keys(dependencies).map(key => ({
-    key,
-    repo: 'npm',
-    version: dependencies[key].version,
-  }));
+  const commandOutdtedResult = await executeCommand(null, 'npm outdated -g --json');
+  const versions = UtilsService.parseJSON(commandOutdtedResult.stdout);
 
-  res.json(npmDependencies);
+  return Object.keys(dependencies)
+    .map(name => mapNpmDependency(
+      name,
+      dependencies[name],
+      versions[name],
+      dependencies[name].version,
+    ));
+}
+
+
+export async function getGlobalDependencies(req, res) {
+  const npmCacheName = 'global-npmGlobal';
+  let npmDependencies = [];
+
+  try {
+    npmDependencies = getFromCache(npmCacheName) || await getGlobalNpmDependencies();
+  } catch (e) { console.error(e); }
+
+  putToCache(npmCacheName, npmDependencies);
+
+  res.json([...npmDependencies]);
 }

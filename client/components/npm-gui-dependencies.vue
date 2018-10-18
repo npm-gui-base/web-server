@@ -122,16 +122,19 @@
         <npm-gui-btn
           class="success small"
           icon="cloud-download"
+          @click="onInstallAllWanted()"
         >Update all To Wanted
         </npm-gui-btn>
         <npm-gui-btn
           class="success small"
           icon="cloud-download"
+          @click="onInstallAllLatest()"
         >Update all To Latest
         </npm-gui-btn>
         <npm-gui-btn
           class="danger small"
           icon="loop-circular"
+          @click="onReInstallAll()"
         >Re/Install all
         </npm-gui-btn>
       </div>
@@ -160,7 +163,7 @@
           <td class="column-version">{{ dependency.installed || '-'}}</td>
           <td class="column-version">
             <npm-gui-btn
-              v-disabled="dependenciesLoading[dependency.name]"
+              :disabled="dependenciesLoading[dependency.name]"
               icon="cloud-download"
               v-if="dependency.wanted"
               class="success small"
@@ -170,7 +173,7 @@
           </td>
           <td class="column-version">
             <npm-gui-btn
-              v-disabled="dependenciesLoading[dependency.name]"
+              :disabled="dependenciesLoading[dependency.name]"
               icon="cloud-download"
               v-if="dependency.latest"
               class="success small"
@@ -180,7 +183,7 @@
           </td>
           <td class="column-action">
             <npm-gui-btn
-              v-disabled="dependenciesLoading[dependency.name]"
+              :disabled="dependenciesLoading[dependency.name]"
               icon="trash"
               class="danger small"
               @click="onRemove(dependency)"
@@ -254,23 +257,42 @@
           });
       },
 
-      onInstall(dependency, packageVersion) {
+      onInstall(dependency, version) {
+        this.onInstall([
+          {
+            name: dependency.name,
+            version,
+          }
+        ]);
+      },
+
+      onInstall(dependency, version) {
+        const { name } = dependency;
+
         this.dependenciesLoading = {
           ...this.dependenciesLoading,
-          [dependency.name]: true,
+          [name]: true,
         };
 
-        const packageName = dependency.name;
-
         axios
-          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { packageName, packageVersion },) // eslint-disable-line
+          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { name, version },) // eslint-disable-line
           .then(() => {
             this.dependenciesLoading = {
               ...this.dependenciesLoading,
-              [dependency.name]: false,
+              [name]: false,
             };
             this.loadDependencies();
           });
+      },
+
+      onInstallAllWanted() {
+        const dependenciesToUpdate = this.dependencies.filter(dependency => dependency.wanted);
+        dependenciesToUpdate.forEach(dependency => this.onInstall(dependency, dependency.wanted));
+      },
+
+      onInstallAllLatest() {
+        const dependenciesToUpdate = this.dependencies.filter(dependency => dependency.latest);
+        dependenciesToUpdate.forEach(dependency => this.onInstall(dependency, dependency.latest));
       },
     },
   };

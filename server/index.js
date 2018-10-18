@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 // import opn from 'opn';
 import Console from './console';
 
-import { globalDependenciesRouter } from './routers/globalDependencies.router';
 import { projectRouter } from './routers/project.router';
 import { searchRouter } from './routers/search.router';
 import { explorerRouter } from './routers/explorer.router';
@@ -23,11 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app
 // .use('/', NpmGuiControllers.Routes.Static.onPath(`${path.resolve(__dirname)}/dist/web-client`));
 
-app.use('/api/dependencies/global', globalDependenciesRouter);
 app.use('/api/explorer', explorerRouter);
 app.use('/api/search', searchRouter);
-
-
 app.use('/api/project', projectRouter);
 
 // app.use('/api/dependencies', NpmGuiControllers.Routes.Dependencies);
