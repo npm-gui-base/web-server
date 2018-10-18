@@ -2,8 +2,8 @@ import fs from 'fs';
 
 import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
-import { pushToCache } from '../../cache';
-import { mapNpmDependency, mapBowerDependency } from '../mapDependencies';
+import { updateInCache } from '../../cache';
+import { mapNpmDependency, mapBowerDependency } from './mapDependencies';
 
 
 async function addRegularNpmDependency(req) {
@@ -72,10 +72,10 @@ export async function addRegularDependencies(req, res) {
 
   if (req.params.repoName === 'npm') {
     const dependencyInfo = await addRegularNpmDependency(req);
-    pushToCache(npmCacheName, dependencyInfo);
+    updateInCache(npmCacheName, dependencyInfo, 'name');
   } else if (req.params.repoName === 'bower') {
     const dependencyInfo = await addRegularBowerDependency(req);
-    pushToCache(bowerCacheName, dependencyInfo);
+    updateInCache(bowerCacheName, dependencyInfo, 'name');
   }
 
   res.json({});
@@ -87,10 +87,10 @@ export async function addDevDependencies(req, res) {
 
   if (req.params.repoName === 'npm') {
     const dependencyInfo = await addDevNpmDependency(req);
-    pushToCache(npmCacheName, dependencyInfo);
+    updateInCache(npmCacheName, dependencyInfo, 'name');
   } else if (req.params.repoName === 'bower') {
     const dependencyInfo = await addDevBowerDependency(req);
-    pushToCache(bowerCacheName, dependencyInfo);
+    updateInCache(bowerCacheName, dependencyInfo, 'name');
   }
 
   res.json({});

@@ -139,6 +139,7 @@
     <div class="table-container">
       <table v-show="!loading">
         <tr>
+          <th><input type="checkbox" style="display:inline;"/> <span>All</span></th>
           <th>Name</th>
           <th>Required</th>
           <th>NSP</th>
@@ -148,8 +149,9 @@
           <th>Action</th>
         </tr>
         <tr v-for="dependency in dependencies" v-bind:key="dependency.name" v-bind:class="{ loading: dependenciesLoading[dependency.name] }">
+          <td><input type="checkbox" /></td>
           <td>
-            {{ dependency.name }}{{ dependency.loading }}
+            {{ dependency.name }}
             <span class="label label--warning" v-if="dependency.repo === 'bower'">Bower</span>
             <span class="label label--danger" v-if="dependency.repo === 'npm'">npm</span>
           </td>
@@ -157,15 +159,32 @@
           <td class="column-nsp">-</td>
           <td class="column-version">{{ dependency.installed || '-'}}</td>
           <td class="column-version">
-            <npm-bui-btn icon="cloud-download" v-if="dependency.wanted" class="success small" @click="onInstall(dependency)">{{dependency.wanted}}</npm-bui-btn>
+            <npm-gui-btn
+              v-disabled="dependenciesLoading[dependency.name]"
+              icon="cloud-download"
+              v-if="dependency.wanted"
+              class="success small"
+              @click="onInstall(dependency, dependency.wanted)"
+            >{{dependency.wanted}}</npm-gui-btn>
             <span v-if="!dependency.wanted">-</span>
           </td>
           <td class="column-version">
-            <npm-gui-btn icon="cloud-download" v-if="dependency.latest" class="success small" @click="onInstall(dependency)">{{dependency.latest}}</npm-gui-btn>
+            <npm-gui-btn
+              v-disabled="dependenciesLoading[dependency.name]"
+              icon="cloud-download"
+              v-if="dependency.latest"
+              class="success small"
+              @click="onInstall(dependency, dependency.latest)"
+            >{{dependency.latest}}</npm-gui-btn>
             <span v-if="!dependency.latest">-</span>
           </td>
           <td class="column-action">
-            <npm-gui-btn icon="trash" class="danger small" @click="onRemove(dependency)"></npm-gui-btn>
+            <npm-gui-btn
+              v-disabled="dependenciesLoading[dependency.name]"
+              icon="trash"
+              class="danger small"
+              @click="onRemove(dependency)"
+            ></npm-gui-btn>
             <!-- <npm-gui-btn icon="lock-locked" class="primary"></npm-gui-btn>
             <npm-gui-btn icon="external-link" class="warning"></npm-gui-btn> -->
           </td>
@@ -231,6 +250,25 @@
         axios
           .delete(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}/${dependency.name}`) // eslint-disable-line
           .then(() => {
+            this.loadDependencies();
+          });
+      },
+
+      onInstall(dependency, packageVersion) {
+        this.dependenciesLoading = {
+          ...this.dependenciesLoading,
+          [dependency.name]: true,
+        };
+
+        const packageName = dependency.name;
+
+        axios
+          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { packageName, packageVersion },) // eslint-disable-line
+          .then(() => {
+            this.dependenciesLoading = {
+              ...this.dependenciesLoading,
+              [dependency.name]: false,
+            };
             this.loadDependencies();
           });
       },

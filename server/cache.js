@@ -8,9 +8,16 @@ export function putToCache(name, data) {
   cache[name] = data;
 }
 
-export function pushToCache(name, data) {
+export function updateInCache(name, data, keyToCompare) {
   if (cache[name]) {
-    cache[name].push(data);
+    const indexToUpdate = cache[name]
+      .findIndex((item) => data[keyToCompare] === item[keyToCompare]);
+
+    if (indexToUpdate > -1) {
+      cache[name][indexToUpdate] = data;
+    } else {
+      cache[name].push(data);
+    }
   }
 }
 
