@@ -1,6 +1,6 @@
 import 'normalize.css';
 import Vue from 'vue';
-import 'open-iconic';
+import 'open-iconic'; // eslint-disable-line
 
 import './base.css';
 import NpmGuiNav from './components/npm-gui-nav.vue';

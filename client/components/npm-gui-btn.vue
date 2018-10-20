@@ -7,7 +7,7 @@
     font-size: 11px;
     font-weight: 500;
     outline: none;
-    padding: 10px;
+    padding: asdf;
     text-transform: uppercase;
     transition: background-color 200ms;
   }
@@ -17,7 +17,11 @@
 
   .button:hover { filter: brightness(90%); }
   .button:active { filter: brightness(80%); }
-  .button:disabled { cursor: disabled; filter: grayscale(100%); }
+
+  .button:disabled {
+    cursor: disabled;
+    filter: grayscale(100%);
+  }
 
   .primary { background-color: #325d88; }
   .dark { background-color: #3e3f3a; }

@@ -15,9 +15,8 @@ body {
 
 #npm-gui-vue {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   flex: 1;
-
   height: 100%;
 }
 
@@ -29,14 +28,12 @@ body {
 .left-column {
   flex-basis: 30%;
   display: flex;
-
   padding: 15px;
 }
 
 .right-column {
   display: flex;
   flex: 1;
-
   padding: 15px;
 }
 
@@ -56,21 +53,21 @@ table {
   border-collapse: collapse;
   color: #393a35;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  font-size: .8em;
+  font-size: 0.8em;
   width: 100%;
+}
 
-  tr:hover {
-    background: #f8f5f0;
-  }
+tr:hover {
+  background: #f8f5f0;
+}
 
-  td,
-  th {
-    border-bottom: 1px solid #dfd7ca;
-    padding: .5em;
-    text-align: left;
+td,
+th {
+  border-bottom: 1px solid #dfd7ca;
+  padding: 0.5em;
+  text-align: left;
+}
 
-    &:last-child {
-      border-right: 0;
-    }
-  }
+th:last-child {
+  border-right: 0;
 }

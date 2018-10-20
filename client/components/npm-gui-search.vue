@@ -14,10 +14,10 @@
   }
 
   .npm-gui-search--open {
-      border-color: #dfd7ca;
-      max-height: 100%;
-      max-width: 100%;
-    }
+    border-color: #dfd7ca;
+    max-height: 100%;
+    max-width: 100%;
+  }
 
   form {
     margin-bottom: 6px;
@@ -81,7 +81,7 @@
           <th>github</th>
           <th>action</th>
         </tr>
-        <tr v-for="result in searchResults">
+        <tr v-for="result in searchResults" v-bind:key="result.name">
           <td>{{ (result.score * 100).toFixed(2) }}%</td>
           <td :title="result.description"><strong>{{ result.name }}</strong></td>
           <td :title="result.description">{{ result.version }}</td>
@@ -128,7 +128,7 @@
         const name = toInstall.includes('@') ? toInstall.split('@')[0] : toInstall;
         const version = toInstall.includes('@') ? toInstall.split('@')[1] : null;
         axios.post(
-          `/api/project/test-project/${this.$root._route.meta.api}/${this.searchRepo}`,
+          `/api/project/test-project/${this.$root._route.meta.api}/${this.searchRepo}`, // eslint-disable-line
           { name, version },
         );
 

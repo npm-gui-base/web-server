@@ -21,9 +21,11 @@ export function mapBowerDependency(name, dependency) {
     installed: dependency.pkgMeta ? dependency.pkgMeta.version : null,
     wanted: uniqueOrNull(
       dependency.update.target,
-      dependency.pkgMeta && dependency.pkgMeta.version),
+      dependency.pkgMeta && dependency.pkgMeta.version,
+    ),
     latest: uniqueOrNull(
       dependency.update.latest,
-      dependency.pkgMeta && dependency.pkgMeta.version),
+      dependency.pkgMeta && dependency.pkgMeta.version,
+    ),
   };
 }

@@ -2,8 +2,7 @@
   .dependencies {
     display: flex;
     flex: 1;
-    flex-direction:column;
-
+    flex-direction: column;
     position: relative;
   }
 
@@ -13,7 +12,6 @@
     margin-bottom: 15px;
     margin-top: 15px;
     overflow: auto;
-
     flex: 1;
   }
 
@@ -24,10 +22,6 @@
 
   td:first-child {
     text-align: left;
-  }
-
-  tr:hover td {
-    background: #dfd7ca;
   }
 
   iframe {
@@ -43,13 +37,15 @@
     border-radius: 2px;
     color: #fff;
     float: right;
-    font-size: .8em;
+    font-size: 0.8em;
     font-weight: bold;
-    padding: .2em .4em;
+    padding: 0.2em 0.4em;
   }
+
   .label--danger {
     background: #d9534f;
   }
+
   .label--warning {
     background: #ef5c0e;
   }
@@ -74,18 +70,20 @@
   tr.loading {
     background: linear-gradient(-45deg, #dfd7ca, #fff);
     background-size: 200% 200%;
-  	animation: Gradient 2s ease infinite;
+    animation: Gradient 2s ease infinite;
   }
 
   @keyframes Gradient {
     0% {
-      background-position: 0% 50%
+      background-position: 0% 50%;
     }
+
     50% {
-      background-position: 100% 50%
+      background-position: 100% 50%;
     }
+
     100% {
-      background-position: 0% 50%
+      background-position: 0% 50%;
     }
   }
 </style>
@@ -255,15 +253,6 @@
           .then(() => {
             this.loadDependencies();
           });
-      },
-
-      onInstall(dependency, version) {
-        this.onInstall([
-          {
-            name: dependency.name,
-            version,
-          }
-        ]);
       },
 
       onInstall(dependency, version) {

@@ -34,10 +34,10 @@ export default function executeCommand(cwd, wholeCommand, pushToConsole) {
 
     // if error
     spawned.on('error', () => {
-      reject({
+      reject(new Error({
         stdout,
         stderr,
-      });
+      }));
     });
   });
 }

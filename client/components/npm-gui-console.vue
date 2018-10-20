@@ -1,7 +1,7 @@
 <style scoped rel="stylesheet/css">
   .console {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     flex: 1;
     position: relative;
   }
@@ -11,7 +11,7 @@
     border-radius: 2px;
     color: #8e8c84;
     font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    font-size: .8em;
+    font-size: 0.8em;
     margin-bottom: 0;
     margin-top: 15px;
     overflow: auto;
@@ -19,7 +19,6 @@
     position: relative;
     word-break: break-all;
     word-wrap: break-word;
-
     flex: 1;
   }
 
@@ -80,10 +79,10 @@
         consoleSocket.onmessage = (msg) => {
           this.log += msg.data;
         };
-        consoleSocket.onclose = (msg) => {
+        consoleSocket.onclose = () => {
           setTimeout(() => this.connectConsole(), 1000);
         };
-      }
+      },
     },
   };
 </script>

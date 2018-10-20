@@ -23,7 +23,7 @@
   p {
     color: #dfd7ca;
     display: inline-block;
-    font-size: .9em;
+    font-size: 0.9em;
     font-weight: 400;
     line-height: 45px;
     margin: 0;
@@ -33,7 +33,12 @@
 <template>
   <nav>
     <h1>npm-gui</h1>
-    <npm-gui-btn v-for="button in buttons" class="dark" v-bind:route="button.route">{{ button.text }}</npm-gui-btn>
+    <npm-gui-btn
+      v-for="button in buttons"
+      class="dark"
+      v-bind:route="button.route"
+      v-bind:key="button.text"
+      >{{ button.text }}</npm-gui-btn>
     <div class="right-section">
       <p>Current Project: {{ currentProject.name }}</p>
       <npm-gui-btn class="dark" icon="folder"></npm-gui-btn>

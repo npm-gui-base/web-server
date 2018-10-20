@@ -30,7 +30,7 @@ async function addRegularNpmDependency(req) {
   );
 }
 
-async function addRegularBowerDependency(req) {
+async function addRegularBowerDependency(req) { // eslint-disable-line
 
 }
 
@@ -43,11 +43,13 @@ async function addDevNpmDependency(req) {
 
   // get package info
   const commandLsResult = await executeCommand(
-    req.params.projectPath, `npm ls ${packageName} --depth=0 --json`);
+    req.params.projectPath, `npm ls ${packageName} --depth=0 --json`,
+  );
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
   const commandOutdtedResult = await executeCommand(
-    req.params.projectPath, `npm outdated ${packageName} --json`);
+    req.params.projectPath, `npm outdated ${packageName} --json`,
+  );
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout) || { versions: [] };
 
   const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
@@ -60,7 +62,7 @@ async function addDevNpmDependency(req) {
   );
 }
 
-async function addDevBowerDependency(req) {
+async function addDevBowerDependency(req) { // eslint-disable-line
 
 }
 

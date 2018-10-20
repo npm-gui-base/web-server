@@ -11,7 +11,7 @@ async function deleteRegularNpmDependency(req) {
   return packageName;
 }
 
-async function deleteRegularBowerDependency(req) {
+async function deleteRegularBowerDependency(req) { // eslint-disable-line
 
 }
 
@@ -25,7 +25,7 @@ async function deleteDevNpmDependency(req) {
   return packageName;
 }
 
-async function deleteDevBowerDependency(req) {
+async function deleteDevBowerDependency(req) { // eslint-disable-line
 
 }
 
