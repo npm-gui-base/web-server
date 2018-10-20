@@ -13,8 +13,8 @@
     "test:lint:js": "eslint \"client/**/**.vue\" \"client/**/**.js\" \"server/actions/**/*.js\" \"server/routers/**/*.js\" ",
     "test:lint": "npm run test:lint:css && npm run test:lint:js",
     "test:unit": "mocha tests/**.js",
-    "test": "npm run test:lint && npm run test:unit",
-    "build": "webpack -p"
+    "test": "npm run test:lint && npm run build && npm run test:unit",
+    "build": "webpack --config webpack.server.config.js --mode=production"
   },
   "repository": {
     "type": "git",
