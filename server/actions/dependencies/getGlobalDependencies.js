@@ -7,14 +7,14 @@ export async function getGlobalNpmDependencies() {
   const commandResult = await executeCommand(null, 'npm ls -g --depth=0 --json');
   const { dependencies } = UtilsService.parseJSON(commandResult.stdout);
 
-  const commandOutdtedResult = await executeCommand(null, 'npm outdated -g --json');
-  const versions = UtilsService.parseJSON(commandOutdtedResult.stdout);
+  const commandOutdatedResult = await executeCommand(null, 'npm outdated -g --json');
+  const versions = UtilsService.parseJSON(commandOutdatedResult.stdout);
 
   return Object.keys(dependencies)
     .map(name => mapNpmDependency(
       name,
       dependencies[name],
-      versions[name],
+      versions && versions[name],
       dependencies[name].version,
     ));
 }

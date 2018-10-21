@@ -11,7 +11,7 @@ export function putToCache(name, data) {
 export function updateInCache(name, data, keyToCompare) {
   if (cache[name]) {
     const indexToUpdate = cache[name]
-      .findIndex((item) => data[keyToCompare] === item[keyToCompare]);
+      .findIndex(item => data[keyToCompare] === item[keyToCompare]);
 
     if (indexToUpdate > -1) {
       cache[name][indexToUpdate] = data;
@@ -21,10 +21,14 @@ export function updateInCache(name, data, keyToCompare) {
   }
 }
 
-export function spliceFromCache(name, compareFunction) {
+export function spliceFromCache(name, data, keyToCompare) {
   if (cache[name]) {
-    const indexToSplice = cache[name].findIndex(compareFunction);
-    cache[name].splice(indexToSplice, 1);
+    const indexToSplice = cache[name]
+      .findIndex(item => data[keyToCompare] === item[keyToCompare]);
+
+    if (indexToSplice > -1) {
+      cache[name].splice(indexToSplice, 1);
+    }
   }
 }
 

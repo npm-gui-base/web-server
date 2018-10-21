@@ -19,7 +19,7 @@ async function getRegularNpmDependencies(req) {
     .map(name => mapNpmDependency(
       name,
       dependencies[name],
-      versions[name],
+      versions && versions[name],
       packageJson.dependencies[name],
     ));
 }
@@ -37,7 +37,7 @@ async function getDevNpmDependencies(req) {
     .map(name => mapNpmDependency(
       name,
       dependencies[name],
-      versions[name],
+      versions && versions[name],
       packageJson.devDependencies[name],
     ));
 }

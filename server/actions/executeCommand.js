@@ -7,7 +7,10 @@ export default function executeCommand(cwd, wholeCommand, pushToConsole) {
     const args = wholeCommand.split(' ');
     const command = args.shift();
     const spawned = spawn(command, args, { cwd });
-    if (pushToConsole) { Console.send(`executing: "${wholeCommand}" in "${cwd}"\n`); }
+    if (pushToConsole) {
+      console.log(`executing: "${wholeCommand}" in "${cwd}"\n`);
+      Console.send(`executing: "${wholeCommand}" in "${cwd}"\n`);
+    }
 
     // wait for stdout, stderr
     let stdout = '';

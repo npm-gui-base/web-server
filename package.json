@@ -9,14 +9,14 @@
     "dev:server": "concurrently \"npm run dev:server:webpack\" \"npm run dev:server:nodemon\" ",
     "dev:client": "webpack-dev-server --config webpack.client.config.js --hot --mode=development",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" ",
+     "build:server": "webpack --config webpack.server.config.js --mode=production",
+    "build:client": "webpack --config webpack.client.config.js --mode=production",
+    "build": "npm run build:server && npm run build:client",
     "test:lint:css": "stylelint client/**/*.vue client/**/*.css",
     "test:lint:js": "eslint \"client/**/**.vue\" \"client/**/**.js\" \"server/actions/**/*.js\" \"server/routers/**/*.js\" ",
     "test:lint": "npm run test:lint:css && npm run test:lint:js",
     "test:unit": "mocha tests/**.js",
-    "test": "npm run build && npm run test:unit && npm run test:lint",
-    "build:server": "webpack --config webpack.server.config.js --mode=production",
-    "build:client": "webpack --config webpack.client.config.js --mode=production",
-    "build": "npm run build:server && npm run build:client"
+    "test": "npm run build:server && npm run test:unit && npm run test:lint"
   },
   "repository": {
     "type": "git",
