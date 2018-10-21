@@ -1,12 +1,51 @@
 const api = require('supertest');
+const { expect } = require('chai');
 const { app } = require('../dist/server/main.js');
+const { npmGuiPackage } = require('./npmGuiPackage');
 
-describe('Regular Packages', () => {
-  it('should return regular packages', (done) => {
-    api(app)
-      .get('/api/project/test-project/dependencies/regular')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  }).timeout(60000);
+describe.only('Regular Packages', () => {
+  describe('installing', () => {
+    it('should install new package', (done) => {
+      api(app)
+        .post('/api/project/test-project/dependencies/regular/npm')
+        .send({ packageName: 'npm-gui', version: '0.2.1' })
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.deep.equal({});
+          done();
+        });
+    }).timeout(40000);
+
+    it('should return all packages (and new one)', (done) => {
+      api(app)
+        .get('/api/project/test-project/dependencies/regular')
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.deep.include(npmGuiPackage);
+          done();
+        });
+    }).timeout(40000);
+  });
+
+  describe('uninstalling', () => {
+    it('should remove previously installed package', (done) => {
+      api(app)
+        .delete('/api/project/test-project/dependencies/regular/npm/npm-gui')
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.deep.equal({});
+          done();
+        });
+    }).timeout(40000);
+
+    it('should return all packages (without new one)', (done) => {
+      api(app)
+        .get('/api/project/test-project/dependencies/regular')
+        .end((err, res) => {
+          expect(res.statusCode).to.equal(200);
+          expect(res.body).to.not.include(npmGuiPackage);
+          done();
+        });
+    }).timeout(40000);
+  });
 });

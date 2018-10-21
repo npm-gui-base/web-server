@@ -15,12 +15,14 @@
     flex: 1;
   }
 
-  td {
+  td,
+  th {
     padding: 3px 10px;
     text-align: center;
   }
 
-  td:first-child {
+  td:first-child,
+  th:first-child {
     text-align: left;
   }
 
@@ -264,7 +266,7 @@
         };
 
         axios
-          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { name, version },) // eslint-disable-line
+          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { packageName: name, version },) // eslint-disable-line
           .then(() => {
             this.dependenciesLoading = {
               ...this.dependenciesLoading,

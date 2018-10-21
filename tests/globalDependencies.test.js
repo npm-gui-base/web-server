@@ -1,13 +1,14 @@
 const api = require('supertest');
 const { expect } = require('chai');
 const { app } = require('../dist/server/main.js');
+const { npmGuiPackage } = require('./npmGuiPackage');
 
 describe.only('Global Packages', () => {
   describe('installing', () => {
     it('should install new package globally', (done) => {
       api(app)
         .post('/api/project/test-project/dependencies/global/npm')
-        .send({ name: 'npm-gui', version: '0.2.1' })
+        .send({ packageName: 'npm-gui', version: '0.2.1' })
         .end((err, res) => {
           expect(res.statusCode).to.equal(200);
           expect(res.body).to.deep.equal({});
@@ -20,14 +21,7 @@ describe.only('Global Packages', () => {
         .get('/api/project/test-project/dependencies/global')
         .end((err, res) => {
           expect(res.statusCode).to.equal(200);
-          expect(res.body).to.deep.include({
-            name: 'npm-gui',
-            repo: 'npm',
-            required: '0.2.1',
-            installed: '0.2.1',
-            wanted: '0.2.3',
-            latest: '0.3.1',
-          });
+          expect(res.body).to.deep.include({ ...npmGuiPackage, required: '0.2.1' });
           done();
         });
     }).timeout(40000);
@@ -49,14 +43,7 @@ describe.only('Global Packages', () => {
         .get('/api/project/test-project/dependencies/global')
         .end((err, res) => {
           expect(res.statusCode).to.equal(200);
-          expect(res.body).to.not.include({
-            name: 'npm-gui',
-            repo: 'npm',
-            required: '0.2.1',
-            installed: '0.2.1',
-            wanted: '0.2.3',
-            latest: '0.3.1',
-          });
+          expect(res.body).to.not.include({ ...npmGuiPackage, required: '0.2.1' });
           done();
         });
     }).timeout(40000);

@@ -2,11 +2,11 @@ import executeCommand from '../executeCommand';
 import { spliceFromCache } from '../../cache';
 
 async function deleteGlobalNpmDependency(req) {
-  const { name } = req.params;
+  const { packageName } = req.params;
   // delete
-  await executeCommand(null, `npm uninstall ${name} -g`, true);
+  await executeCommand(null, `npm uninstall ${packageName} -g`, true);
 
-  return name;
+  return packageName;
 }
 
 async function deleteGlobalBowerDependency(req) { // eslint-disable-line

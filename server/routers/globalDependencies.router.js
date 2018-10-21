@@ -8,10 +8,6 @@ const globalDependenciesRouter = express.Router(); // eslint-disable-line
 
 globalDependenciesRouter.get('/', getGlobalDependencies);
 globalDependenciesRouter.post('/:repoName', addGlobalDependencies);
-// globalModulesRouter.put('/', globalModulesController.whenPut);
-globalDependenciesRouter.delete('/:repoName/:name', deleteGlobalDependencies);
-// // others
-// globalModulesRouter.get('/versions', globalModulesController.whenGetVersions);
-// globalModulesRouter.get('/nsp', globalModulesController.whenGetNSP);
+globalDependenciesRouter.delete('/:repoName/:packageName', deleteGlobalDependencies);
 
 export { globalDependenciesRouter };
