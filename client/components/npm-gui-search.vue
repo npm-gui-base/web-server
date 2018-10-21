@@ -129,7 +129,7 @@
         const version = toInstall.includes('@') ? toInstall.split('@')[1] : null;
         axios.post(
           `/api/project/test-project/${this.$root._route.meta.api}/${this.searchRepo}`, // eslint-disable-line
-          { name, version },
+          { packageName: name, version },
         );
 
         this.searchQuery = '';
