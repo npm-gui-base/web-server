@@ -27,6 +27,18 @@ module.exports = {
         test: /\.(js)$/,
         loader: 'babel-loader',
         exclude: EXCLUDE,
+        options: {
+          presets: [
+            [
+              '@babel/env',
+              {
+                targets: {
+                  browsers: 'defaults',
+                },
+              },
+            ],
+          ],
+        },
       },
       {
         test: /\.(png|woff|woff2|eot|otf|ttf|svg|gif|jpg)$/,

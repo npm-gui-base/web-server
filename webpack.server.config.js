@@ -19,6 +19,19 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: EXCLUDE,
+        options: {
+          presets: [
+            [
+              '@babel/env',
+              {
+                targets: {
+                  node: '0.10',
+                },
+              },
+            ],
+          ],
+          plugins: ['@babel/plugin-transform-async-to-generator']
+        },
       },
     ],
   },
