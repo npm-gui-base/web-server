@@ -1,8 +1,10 @@
+language: node_js
+
 os:
   - windows
   - linux
   - osx
-language: node_js
+
 node_js:
   - "10.12"
   - "9.11"
@@ -15,6 +17,7 @@ node_js:
   # - "0.11"
   # - "0.10"
   # - "iojs"
+
 cache:
   directories:
     - "node_modules"

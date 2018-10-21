@@ -1,6 +1,6 @@
 const api = require('supertest');
 const { expect } = require('chai');
-const { app } = require('../dist/server/main.js');
+const { app } = require('../server');
 const { npmGuiPackage } = require('./npmGuiPackage');
 
 describe.only('Regular Packages', () => {

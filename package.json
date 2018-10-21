@@ -15,8 +15,8 @@
     "test:lint:css": "stylelint client/**/*.vue client/**/*.css",
     "test:lint:js": "eslint \"client/**/**.vue\" \"client/**/**.js\" \"server/actions/**/*.js\" \"server/routers/**/*.js\" ",
     "test:lint": "npm run test:lint:css && npm run test:lint:js",
-    "test:unit": "mocha tests/**.js",
-    "test": "npm run build:server && npm run test:unit && npm run test:lint"
+    "test:unit": "mocha --require @babel/register tests/**.js",
+    "test": "npm run test:unit && npm run test:lint"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "@babel/plugin-transform-async-to-generator": "^7.1.0",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "axios": "^0.18.0",
