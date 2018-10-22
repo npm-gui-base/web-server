@@ -1,7 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import Analytics from 'analytics-node';
 // import opn from 'opn';
 import Console from './console';
+
 
 import { projectRouter } from './routers/project.router';
 import { searchRouter } from './routers/search.router';
@@ -11,6 +13,12 @@ import { explorerRouter } from './routers/explorer.router';
 const PORT = 1337;
 const HOST = '0.0.0.0';
 
+const client = new Analytics(Buffer.from('aXNpS01OeDNnZ1A0ZlE0VFBqelFvTjdsZDFmejF0NVU=', 'base64').toString());
+
+client.track({
+  event: 'npm-gui start',
+  userId: new Date().toString(),
+});
 
 export const app = express();
 

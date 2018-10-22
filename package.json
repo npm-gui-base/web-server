@@ -36,6 +36,7 @@
     "@babel/register": "^7.0.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
+    "analytics-node": "^3.3.0",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",

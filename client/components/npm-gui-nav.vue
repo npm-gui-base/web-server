@@ -19,15 +19,6 @@
   .right-section {
     float: right;
   }
-
-  p {
-    color: #dfd7ca;
-    display: inline-block;
-    font-size: 0.9em;
-    font-weight: 400;
-    line-height: 45px;
-    margin: 0;
-  }
 </style>
 
 <template>
@@ -40,18 +31,19 @@
       v-bind:key="button.text"
       >{{ button.text }}</npm-gui-btn>
     <div class="right-section">
-      <p>Current Project: {{ currentProject.name }}</p>
-      <npm-gui-btn class="dark" icon="folder"></npm-gui-btn>
+      <npm-gui-project></npm-gui-project>
     </div>
   </nav>
 </template>
 
 <script>
   import NpmGuiBtn from './npm-gui-btn.vue';
+  import NpmGuiProject from './npm-gui-project.vue';
 
   export default {
     components: {
       NpmGuiBtn,
+      NpmGuiProject,
     },
     data() {
       return {
