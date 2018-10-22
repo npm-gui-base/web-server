@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const { app } = require('../server');
 const { npmGuiPackage } = require('./npmGuiPackage');
 
-describe.only('Regular Packages', () => {
+describe('Regular Packages', () => {
   describe('installing', () => {
     it('should install new package', (done) => {
       api(app)

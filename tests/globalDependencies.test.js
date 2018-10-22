@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const { app } = require('../server');
 const { npmGuiPackage } = require('./npmGuiPackage');
 
-describe.only('Global Packages', () => {
+describe('Global Packages', () => {
   describe('installing', () => {
     it('should install new package globally', (done) => {
       api(app)
@@ -21,7 +21,14 @@ describe.only('Global Packages', () => {
         .get('/api/project/test-project/dependencies/global')
         .end((err, res) => {
           expect(res.statusCode).to.equal(200);
-          expect(res.body).to.deep.include({ ...npmGuiPackage, required: '0.2.1' });
+          const npmGui = res.body.filter(d => d.name === 'npm-gui')[0];
+          expect(npmGui).to.include({
+            name: 'npm-gui',
+            repo: 'npm',
+            required: '0.2.1',
+            installed: '0.2.1',
+            latest: '0.3.1',
+          });
           done();
         });
     }).timeout(40000);
