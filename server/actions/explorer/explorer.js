@@ -1,15 +1,17 @@
-import executeCommand from '../executeCommand';
-import UtilsService from '../../service/utils/utils.service';
+import path from 'path';
+import fs from 'fs';
 
 export async function explorer(req, res) {
-  const commandResult = await executeCommand(null, 'npm ls -g --depth=0 --json');
-  const { dependencies } = UtilsService.parseJSON(commandResult.stdout);
+  const normalizedPath = path.normalize(req.params.path ? `/${req.params.path}` : process.cwd());
 
-  const npmDependencies = Object.keys(dependencies).map(key => ({
-    key,
-    repo: 'npm',
-    version: dependencies[key].version,
-  }));
+  const ls = fs.readdirSync(normalizedPath)
+    .map(name => ({
+      isDirectory: fs.lstatSync(`${normalizedPath}/${name}`).isDirectory(),
+      name,
+    }));
 
-  res.json(npmDependencies);
+  res.json({
+    path: normalizedPath,
+    ls,
+  });
 }

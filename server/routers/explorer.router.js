@@ -3,6 +3,7 @@ import { explorer } from '../actions/explorer/explorer';
 
 const explorerRouter = express.Router();// eslint-disable-line
 
-explorerRouter.post('/:repoName', explorer);
+explorerRouter.get('/', explorer);
+explorerRouter.get('/:path', explorer);
 
 export { explorerRouter };

@@ -31,14 +31,14 @@
     display: inline-block;
     width: 100%;
     text-align: left;
-    padding: 8px;
+    padding: 0 8px;
   }
 
   .file {
     color: #8e8c84;
     font-size: 12px;
     font-weight: 500;
-    padding: 8px;
+    padding: 0 8px;
   }
 
   .folder:hover {
@@ -79,7 +79,6 @@
 
 <script>
   import axios from 'axios';
-  import debounce from 'debounce';
   import NpmGuiBtn from './npm-gui-btn.vue';
 
   export default {
@@ -89,30 +88,12 @@
     data() {
       return {
         isOpen: false,
-        selectedPath: '/var/www/html/workspace/npm-gui',
-        explorer: {
-          path: '/var/www/html',
-          ls: [{
-            name: 'any',
-            isDirectory: false,
-          }, {
-            name: 'sfsegdsr',
-            isDirectory: true,
-          }, {
-            name: 'sdrgsdsfsaefrg',
-            isDirectory: false,
-          }, {
-            name: 'sdrasefgsdrg',
-            isDirectory: true,
-          }, {
-            name: 'sdrgasefsdrg',
-            isDirectory: false,
-          }],
-        },
+        selectedPath: null,
+        explorer: null,
       };
     },
     created() {
-      this.onproject = debounce(this.onproject, 1000);
+      this.loadPath();
     },
     methods: {
       toggle() {
@@ -122,15 +103,17 @@
       onExplorer() {
         this.loading = true;
         this.projectResults = [];
+      },
 
+      loadPath() {
+        this.loading = true;
         axios
-          .post(`/api/project/${this.projectRepo}`, {
-            query: this.projectQuery,
-          })
+          .get('/api/explorer/')
           .then((response) => {
             this.loading = false;
             this.error = null;
-            this.projectResults = response.data;
+            this.explorer = response.data;
+            this.selectedPath = response.data.path;
           })
           .catch((error) => {
             this.loading = false;
