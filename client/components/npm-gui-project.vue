@@ -22,7 +22,8 @@
     max-height: unset;
   }
 
-  .folder {
+  .folder,
+  .project {
     color: #fff;
     background: none;
     font-size: 12px;
@@ -34,16 +35,25 @@
     padding: 0 8px;
   }
 
+  .project {
+    color: #d9534f;
+  }
+
+  .project:hover {
+    color: #000;
+  }
+
+  .folder:hover,
+  .project:hover {
+    text-decoration: underline;
+    background: #8e8c84;
+  }
+
   .file {
     color: #8e8c84;
     font-size: 12px;
     font-weight: 500;
     padding: 0 8px;
-  }
-
-  .folder:hover {
-    text-decoration: underline;
-    background: #8e8c84;
   }
 
   p {
@@ -60,21 +70,27 @@
   <div
     class="container"
   >
-    <p>Current Project path: {{ selectedPath }}</p>
+    <p>Current Project path: {{ projectPathDecoded() }}</p>
     <npm-gui-btn class="dark" icon="folder" @click="onToggle"></npm-gui-btn>
     <ul
       class="explorer"
       v-bind:class="{'explorer--open': isOpen}"
+      v-if="explorer"
     >
       <li>
-        <button class="folder">../</button>
+        <button class="folder" @click="onSelectPath(`${explorer.path}/../`)">../</button>
       </li>
       <li v-for="folderOrFile in explorer.ls" v-bind:key="folderOrFile.name">
         <button
           class="folder"
-          v-if="folderOrFile.isDirectory"
-          @click="onSelectPath(folderOrFile.name)"
+          v-if="folderOrFile.isDirectory && !folderOrFile.isProject"
+          @click="onSelectPath(`${explorer.path}/${folderOrFile.name}`)"
         ><span class="oi" data-glyph="folder"></span> {{ folderOrFile.name }}/</button>
+        <button
+          class="project"
+          v-if="folderOrFile.isProject"
+          @click="onSelectProjectPath(explorer.path)"
+        ><span class="oi" data-glyph="arrow-thick-right"></span> {{ folderOrFile.name }}/</button>
         <span class="file" v-if="!folderOrFile.isDirectory"><span class="oi" data-glyph="file"></span> {{ folderOrFile.name }}</span>
       </li>
     </ul>
@@ -92,7 +108,6 @@
     data() {
       return {
         isOpen: false,
-        selectedPath: null,
         explorer: null,
       };
     },
@@ -100,14 +115,29 @@
       this.loadPath();
     },
     methods: {
+      projectPathDecoded() {
+        return window.atob(this.$route.params.projectPathEncoded);
+      },
+
       onToggle() {
         this.isOpen = !this.isOpen;
       },
 
-      onSelectPath(dirName) {
-        this.selectedPath = this.selectedPath + dirName;
-        window.selectedPath = this.selectedPath;
-        this.$router.replace({ name: 'dependencies-regular', params: { any: new Date() } });
+      // onSelectPathUp(selectedPath) {
+      //   const dirSeparatorRegex = /\/|\\/g;
+      //   console.log(selectedPath);
+      //   dirSeparatorRegex.test(selectedPath);
+      //   console.log(dirSeparatorRegex.lastIndex);
+      //   // this.loadPath(window.btoa(selectedPath));
+      // },
+
+      onSelectPath(selectedPath) {
+        this.loadPath(window.btoa(selectedPath));
+      },
+
+      onSelectProjectPath(selectedProjectPath) {
+        this.$router.push({ params: { projectPathEncoded: window.btoa(selectedProjectPath) } });
+        this.isOpen = false;
       },
 
       onExplorer() {
@@ -115,10 +145,10 @@
         this.projectResults = [];
       },
 
-      loadPath() {
+      loadPath(encodedPath) {
         this.loading = true;
         axios
-          .get('/api/explorer/')
+          .get(`/api/explorer/${encodedPath || ''}`)
           .then((response) => {
             this.loading = false;
             this.error = null;

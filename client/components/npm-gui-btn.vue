@@ -7,7 +7,7 @@
     font-size: 11px;
     font-weight: 500;
     outline: none;
-    padding: asdf;
+    padding: 8px;
     text-transform: uppercase;
     transition: background-color 200ms;
   }

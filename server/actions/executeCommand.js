@@ -11,6 +11,7 @@ export default function executeCommand(cwd, wholeCommand, pushToConsole) {
       console.log(`executing: "${wholeCommand}" in "${cwd}"\n`);
       Console.send(`executing: "${wholeCommand}" in "${cwd}"\n`);
     }
+    console.log(`executing: "${wholeCommand}" in "${cwd}"\n`);
 
     // wait for stdout, stderr
     let stdout = '';

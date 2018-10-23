@@ -1,8 +1,10 @@
 import executeCommand from '../executeCommand';
 import { spliceFromCache } from '../../cache';
+import { decodePath } from '../decodePath';
 
 async function deleteRegularNpmDependency(req) {
-  const { projectPath, packageName } = req.params;
+  const projectPath = decodePath(req.params.projectPath);
+  const { packageName } = req.params;
 
   // delete
   await executeCommand(projectPath, `npm uninstall ${packageName} -S`, true);
@@ -15,7 +17,8 @@ async function deleteRegularBowerDependency(req) { // eslint-disable-line
 }
 
 async function deleteDevNpmDependency(req) {
-  const { projectPath, packageName } = req.params;
+  const projectPath = decodePath(req.params.projectPath);
+  const { packageName } = req.params;
 
   // delete
   await executeCommand(projectPath, `npm uninstall ${packageName} -D`, true);

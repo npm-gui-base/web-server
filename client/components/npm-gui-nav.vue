@@ -27,7 +27,7 @@
     <npm-gui-btn
       v-for="button in buttons"
       class="dark"
-      v-bind:route="button.route"
+      @click="onGoTo(button.routeName)"
       v-bind:key="button.text"
       >{{ button.text }}</npm-gui-btn>
     <div class="right-section">
@@ -45,28 +45,36 @@
       NpmGuiBtn,
       NpmGuiProject,
     },
+    methods: {
+      onGoTo(routeName) {
+        this.$router.push({
+          name: routeName,
+          params: { projectPathEncoded: this.$route.params.projectPathEncoded },
+        });
+      },
+    },
     data() {
       return {
         msg: 'Hello world!',
         buttons: [
           {
             text: 'Global Dependencies',
-            route: '/dependencies/global',
+            routeName: 'dependencies-global',
             title: '',
           },
           {
             text: 'Dependencies',
-            route: '/dependencies/regular',
+            routeName: 'dependencies-regular',
             title: '',
           },
           {
             text: 'Dev Dependencies',
-            route: '/dependencies/dev',
+            routeName: 'dependencies-dev',
             title: '',
           },
           {
             text: 'Tasks',
-            route: 'tasks',
+            routeName: 'tasks',
             title: '',
           },
         ],

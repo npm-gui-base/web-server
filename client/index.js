@@ -1,24 +1,28 @@
 import 'normalize.css';
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import 'open-iconic'; // eslint-disable-line
 
 import './base.css';
 import NpmGuiNav from './components/npm-gui-nav.vue';
 import NpmGuiConsole from './components/npm-gui-console.vue';
 
-import router from './router';
+import { routes } from './routes';
 
-Vue.use(router.VueRouter);
+Vue.use(VueRouter);
 
 function initialize() {
+  const router = new VueRouter({
+    routes,
+  });
+
   const app = new Vue({
-    el: '#npm-gui-vue',
     components: {
       NpmGuiNav,
       NpmGuiConsole,
     },
-    router: router.router,
-  });
+    router,
+  }).$mount('#npm-gui-vue');
 
   return app;
 }

@@ -4,23 +4,24 @@ import executeCommand from '../executeCommand';
 import UtilsService from '../../service/utils/utils.service';
 import { updateInCache } from '../../cache';
 import { mapNpmDependency } from '../mapDependencies';
+import { decodePath } from '../decodePath';
 
 
 async function addRegularNpmDependency(req) {
-  const { projectPath } = req.params;
+  const projectPath = decodePath(req.params.projectPath);
   const { packageName, version } = req.body;
 
   // add
   await executeCommand(projectPath, `npm install ${packageName}@${version || ''} -S`, true);
 
   // get package info
-  const commandLsResult = await executeCommand(req.params.projectPath, `npm ls ${packageName} --depth=0 --json`);
+  const commandLsResult = await executeCommand(projectPath, `npm ls ${packageName} --depth=0 --json`);
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
-  const commandOutdtedResult = await executeCommand(req.params.projectPath, `npm outdated ${packageName} --json`);
+  const commandOutdtedResult = await executeCommand(projectPath, `npm outdated ${packageName} --json`);
   const versions = UtilsService.parseJSON(commandOutdtedResult.stdout) || { versions: [] };
 
-  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${projectPath}/package.json`, 'utf-8'));
 
   return mapNpmDependency(
     packageName,
@@ -35,20 +36,20 @@ async function addRegularBowerDependency(req) { // eslint-disable-line
 }
 
 async function addDevNpmDependency(req) {
-  const { projectPath } = req.params;
+  const projectPath = decodePath(req.params.projectPath);
   const { packageName, version } = req.body;
 
   // add
   await executeCommand(projectPath, `npm install ${packageName}@${version || ''} -D`, true);
 
   // get package info
-  const commandLsResult = await executeCommand(req.params.projectPath, `npm ls ${packageName} --depth=0 --json`);
+  const commandLsResult = await executeCommand(projectPath, `npm ls ${packageName} --depth=0 --json`);
   const { dependencies } = UtilsService.parseJSON(commandLsResult.stdout);
 
-  const commandOutdatedResult = await executeCommand(req.params.projectPath, `npm outdated ${packageName} --json`);
+  const commandOutdatedResult = await executeCommand(projectPath, `npm outdated ${packageName} --json`);
   const versions = UtilsService.parseJSON(commandOutdatedResult.stdout) || { versions: [] };
 
-  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${req.params.projectPath}/package.json`, 'utf-8'));
+  const packageJson = UtilsService.parseJSON(fs.readFileSync(`${projectPath}/package.json`, 'utf-8'));
 
   return mapNpmDependency(
     packageName,

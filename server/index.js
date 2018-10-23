@@ -25,7 +25,6 @@ export const app = express();
 // middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 // routes
 // app
 // .use('/', NpmGuiControllers.Routes.Static.onPath(`${path.resolve(__dirname)}/dist/web-client`));

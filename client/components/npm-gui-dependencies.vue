@@ -222,17 +222,15 @@
       this.loadDependencies();
     },
     watch: {
-      $route(to) {
-        if (to.name.includes('dependencies')) {
-          this.loadDependencies();
-        }
+      $route() {
+        this.loadDependencies();
       },
     },
     methods: {
       loadDependencies() {
         this.loading = true;
         axios
-          .get(`/api/project/test-project/${this.$root._route.meta.api}`) // eslint-disable-line
+          .get(`/api/project/${this.$route.params.projectPathEncoded}/${this.$route.meta.api}`) // eslint-disable-line
           .then((response) => {
             this.loading = false;
             this.error = null;
@@ -251,7 +249,7 @@
         };
 
         axios
-          .delete(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}/${dependency.name}`) // eslint-disable-line
+          .delete(`/api/project/${this.$route.params.projectPathEncoded}/${this.$route.meta.api}/${dependency.repo}/${dependency.name}`) // eslint-disable-line
           .then(() => {
             this.loadDependencies();
           });
@@ -266,7 +264,7 @@
         };
 
         axios
-          .post(`/api/project/test-project/${this.$root._route.meta.api}/${dependency.repo}`, { packageName: name, version },) // eslint-disable-line
+          .post(`/api/project/${this.$route.params.projectPathEncoded}/${this.$route.meta.api}/${dependency.repo}`, { packageName: name, version },) // eslint-disable-line
           .then(() => {
             this.dependenciesLoading = {
               ...this.dependenciesLoading,
