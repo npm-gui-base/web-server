@@ -61,7 +61,7 @@
     class="container"
   >
     <p>Current Project path: {{ selectedPath }}</p>
-    <npm-gui-btn class="dark" icon="folder" @click="toggle"></npm-gui-btn>
+    <npm-gui-btn class="dark" icon="folder" @click="onToggle"></npm-gui-btn>
     <ul
       class="explorer"
       v-bind:class="{'explorer--open': isOpen}"
@@ -70,7 +70,11 @@
         <button class="folder">../</button>
       </li>
       <li v-for="folderOrFile in explorer.ls" v-bind:key="folderOrFile.name">
-        <button class="folder" v-if="folderOrFile.isDirectory"><span class="oi" data-glyph="folder"></span> {{ folderOrFile.name }}/</button>
+        <button
+          class="folder"
+          v-if="folderOrFile.isDirectory"
+          @click="onSelectPath(folderOrFile.name)"
+        ><span class="oi" data-glyph="folder"></span> {{ folderOrFile.name }}/</button>
         <span class="file" v-if="!folderOrFile.isDirectory"><span class="oi" data-glyph="file"></span> {{ folderOrFile.name }}</span>
       </li>
     </ul>
@@ -96,8 +100,14 @@
       this.loadPath();
     },
     methods: {
-      toggle() {
+      onToggle() {
         this.isOpen = !this.isOpen;
+      },
+
+      onSelectPath(dirName) {
+        this.selectedPath = this.selectedPath + dirName;
+        window.selectedPath = this.selectedPath;
+        this.$router.replace({ name: 'dependencies-regular', params: { any: new Date() } });
       },
 
       onExplorer() {
