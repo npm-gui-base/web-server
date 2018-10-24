@@ -51,7 +51,12 @@
         </npm-gui-btn>
       </div>
     </header>
-    <pre><p>{{log}}</p></pre>
+    <!-- <pre><p>{{log}}</p></pre> -->
+    <pre
+      v-for="(session, id) in sessions" v-bind:key="id"
+    >
+      <p>{{session}}</p>
+    </pre>
   </div>
 </template>
 
@@ -67,17 +72,24 @@
     },
     data() {
       return {
-        log: '',
+        sessions: {},
       };
     },
     methods: {
       clear() {
-        this.log = '';
+        this.sessions = {};
       },
       connectConsole() {
         const consoleSocket = new WebSocket(`ws://${location.host}/api/console`);// eslint-disable-line
         consoleSocket.onmessage = (msg) => {
-          this.log += msg.data;
+          const message = JSON.parse(msg.data);
+          if (!this.sessions[message.id]) {
+            this.sessions[message.id] = '';
+          }
+          this.sessions = {
+            ...this.sessions,
+            [message.id]: this.sessions[message.id] += message.msg,
+          };
         };
         consoleSocket.onclose = () => {
           setTimeout(() => this.connectConsole(), 1000);

@@ -5,10 +5,13 @@ const WebSocketServer = Ws.Server;
 let consoleSocket = null;
 
 export default {
-  send(msg, messageId) {
+  send(msg, id) {
     if (consoleSocket) {
-      // TODO we wiill send command ID to group commands in separated console windows
-      consoleSocket.send(msg);
+      // TODO we will send command ID to group commands in separated console windows
+      consoleSocket.send(JSON.stringify({
+        msg,
+        id,
+      }));
     }
   },
 
@@ -19,7 +22,7 @@ export default {
 
     wss.on('connection', (ws) => {
       consoleSocket = ws;
-      consoleSocket.send('console connected \n');
+      this.send('console connected \n', 'default');
     });
 
     wss.on('message', () => {
