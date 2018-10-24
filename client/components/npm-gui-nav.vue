@@ -73,8 +73,8 @@
             title: '',
           },
           {
-            text: 'Tasks',
-            routeName: 'tasks',
+            text: 'Scripts',
+            routeName: 'scripts',
             title: '',
           },
         ],

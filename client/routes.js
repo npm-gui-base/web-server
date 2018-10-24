@@ -1,4 +1,5 @@
 import NpmGuiDependencies from './components/npm-gui-dependencies.vue';
+import NpmGuiScripts from './components/npm-gui-scripts.vue';
 
 export const routes = [{
   path: '/project/:projectPathEncoded',
@@ -24,5 +25,9 @@ export const routes = [{
     meta: {
       api: 'dependencies/global',
     },
+  }, {
+    path: 'scripts',
+    name: 'scripts',
+    component: NpmGuiScripts,
   }],
 }];

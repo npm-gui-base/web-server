@@ -5,8 +5,9 @@ const WebSocketServer = Ws.Server;
 let consoleSocket = null;
 
 export default {
-  send(msg) {
+  send(msg, messageId) {
     if (consoleSocket) {
+      // TODO we wiill send command ID to group commands in separated console windows
       consoleSocket.send(msg);
     }
   },
