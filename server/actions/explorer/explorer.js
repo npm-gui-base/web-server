@@ -3,7 +3,7 @@ import fs from 'fs';
 import { decodePath } from '../decodePath';
 
 export async function explorer(req, res) {
-  const normalizedPath = path.normalize(req.params.path ? `/${decodePath(req.params.path)}` : process.cwd());
+  const normalizedPath = path.normalize(req.params.path ? `${decodePath(req.params.path)}` : process.cwd());
 
   const ls = fs.readdirSync(normalizedPath)
     .map(name => ({

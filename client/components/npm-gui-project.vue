@@ -19,7 +19,8 @@
 
   .explorer--open {
     border-color: #dfd7ca;
-    max-height: unset;
+    max-height: 80vh;
+    overflow-y: scroll;
   }
 
   .folder,
@@ -90,8 +91,8 @@
           class="project"
           v-if="folderOrFile.isProject"
           @click="onSelectProjectPath(explorer.path)"
-        ><span class="oi" data-glyph="arrow-thick-right"></span> {{ folderOrFile.name }}/</button>
-        <span class="file" v-if="!folderOrFile.isDirectory"><span class="oi" data-glyph="file"></span> {{ folderOrFile.name }}</span>
+        ><span class="oi" data-glyph="arrow-thick-right"></span> {{ folderOrFile.name }}</button>
+        <span class="file" v-if="!folderOrFile.isDirectory && !folderOrFile.isProject"><span class="oi" data-glyph="file"></span> {{ folderOrFile.name }}</span>
       </li>
     </ul>
   </div>
@@ -116,20 +117,13 @@
     },
     methods: {
       projectPathDecoded() {
-        return window.atob(this.$route.params.projectPathEncoded);
+        return this.$route.params.projectPathEncoded
+          ? window.atob(this.$route.params.projectPathEncoded) : null;
       },
 
       onToggle() {
         this.isOpen = !this.isOpen;
       },
-
-      // onSelectPathUp(selectedPath) {
-      //   const dirSeparatorRegex = /\/|\\/g;
-      //   console.log(selectedPath);
-      //   dirSeparatorRegex.test(selectedPath);
-      //   console.log(dirSeparatorRegex.lastIndex);
-      //   // this.loadPath(window.btoa(selectedPath));
-      // },
 
       onSelectPath(selectedPath) {
         this.loadPath(window.btoa(selectedPath));
@@ -140,11 +134,6 @@
         this.isOpen = false;
       },
 
-      onExplorer() {
-        this.loading = true;
-        this.projectResults = [];
-      },
-
       loadPath(encodedPath) {
         this.loading = true;
         axios
@@ -153,7 +142,9 @@
             this.loading = false;
             this.error = null;
             this.explorer = response.data;
-            this.selectedPath = response.data.path;
+            if (!this.$route.params.projectPathEncoded) {
+              this.onSelectProjectPath(response.data.path);
+            }
           })
           .catch((error) => {
             this.loading = false;

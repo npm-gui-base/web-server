@@ -30,4 +30,7 @@ export const routes = [{
     name: 'scripts',
     component: NpmGuiScripts,
   }],
+}, {
+  path: '*',
+  redirect: { name: 'dependencies-regular' },
 }];
